@@ -1,0 +1,50 @@
+﻿<Window x:Class="AerialForWindows.SettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AerialForWindows"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanResizeWithGrip"
+        Title="AerialForWindows Settings" MinHeight="190" MinWidth="320">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <CheckBox
+            Grid.Row="0" 
+            x:Name="_cbUseTimeOfDay"
+            Margin="5 5 5 10"
+            Content="_Use time of day" />
+
+        <RadioButton 
+            Grid.Row="1" 
+            x:Name="_rbPrimaryOnly"
+            Margin="5"
+            Content="Show movie on _primary screen only" />
+        <RadioButton 
+            Grid.Row="2" 
+            x:Name="_rbAllScreensSameMovie"
+            Margin="5"
+            Content="Show same movie on _all screens" />
+        <RadioButton 
+            Grid.Row="3" 
+            x:Name="_rbAllScreensDifferentMovies"
+            Margin="5"
+            Content="Show _different movies on all screens" />
+
+        <StackPanel 
+            Margin="5 10 5 5"
+            Grid.Row="4" 
+            Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button IsDefault="True" Content="OK" Margin="0 0 5 0" MinWidth="73" MinHeight="21" Click="OnOkClicked"/>
+            <Button IsCancel="True" Content="Cancel" MinWidth="73" MinHeight="21"/>
+        </StackPanel>
+    </Grid>
+</Window>
