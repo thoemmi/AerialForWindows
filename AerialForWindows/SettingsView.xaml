@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         ResizeMode="CanResizeWithGrip"
-        Title="AerialForWindows Settings" MinHeight="190" MinWidth="320">
+        Title="Aerial For Windows" MinHeight="190" MinWidth="320">
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
