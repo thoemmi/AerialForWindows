@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Cursors = System.Windows.Input.Cursors;
 
 namespace AerialForWindows {
     /// <summary>
@@ -82,6 +83,7 @@ namespace AerialForWindows {
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                window.Cursor = Cursors.None;
                 window.Left = screen.Bounds.Left;
                 window.Top = screen.Bounds.Top;
                 window.Width = screen.Bounds.Width;
