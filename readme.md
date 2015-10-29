@@ -44,3 +44,7 @@ I appreciate all pull requests.
 
 * October 29th, 2015 - 0.1
   * First release
+
+## License
+
+[MIT License](license.txt)
