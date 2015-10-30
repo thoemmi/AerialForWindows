@@ -7,7 +7,8 @@ As John's work, **Aerial For Windows** is open source.
 ## Installation
 
 1. Download the latest release from [Releases page](https://github.com/thoemmi/AerialForWindows/releases)
-2. Right-click on the downloaded .scr file and select **Install** 
+2. Unblock the *.scr* file by opening its properties and clicking **Unblock**
+3. Right-click on the downloaded *.scr* file and select **Install** 
 
 ![Screen Saver Settings](assets/ScreenSaverSettings.png)
 
