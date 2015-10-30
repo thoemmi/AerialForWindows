@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -20,10 +19,11 @@ namespace AerialForWindows {
 
 #if DEBUG
             if (Debugger.IsAttached) {
-                var window = CreateWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
-                window.ShowInTaskbar = true;
-                window.WindowStyle = WindowStyle.SingleBorderWindow;
-                window.ResizeMode = ResizeMode.CanResizeWithGrip;
+                var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)) {
+                    ShowInTaskbar = true,
+                    WindowStyle = WindowStyle.SingleBorderWindow,
+                    ResizeMode = ResizeMode.CanResizeWithGrip
+                };
                 window.Show();
             } else
 #endif
@@ -53,7 +53,7 @@ namespace AerialForWindows {
         }
 
         private void ShowPreview(IntPtr previewHwnd) {
-            var window = CreateWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
+            var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
 
             var lpRect = new RECT();
             var bGetRect = Win32API.GetClientRect(previewHwnd, ref lpRect);
@@ -80,13 +80,13 @@ namespace AerialForWindows {
                 Window window;
                 switch (movieWindowsMode) {
                     case MovieWindowsMode.PrimaryScreenOnly:
-                        window = CreateWindow(screen.Primary ? _movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay) : null);
+                        window = new ScreenSaverWindow(screen.Primary ? _movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay) : null);
                         break;
                     case MovieWindowsMode.AllScreensSameMovie:
-                        window = CreateWindow(movieUrl ?? (movieUrl = _movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)));
+                        window = new ScreenSaverWindow(movieUrl ?? (movieUrl = _movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)));
                         break;
                     case MovieWindowsMode.AllScreenDifferentMovies:
-                        window = CreateWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
+                        window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -103,27 +103,6 @@ namespace AerialForWindows {
 
                 window.Show();
             }
-        }
-
-        private static Window CreateWindow(string movieUrl = null) {
-            var window = new Window {
-                Background = Brushes.Black,
-                ResizeMode = ResizeMode.NoResize,
-                ShowInTaskbar = false,
-                WindowStyle = WindowStyle.None,
-                Title = "Aerial For Windows"
-            };
-            var grid = new Grid();
-            if (!String.IsNullOrEmpty(movieUrl)) {
-                var mediaElement = new MediaElement {
-                    Stretch = Stretch.Uniform,
-                    LoadedBehavior = MediaState.Play,
-                    Source = new Uri(movieUrl)
-                };
-                grid.Children.Add(mediaElement);
-            }
-            window.Content = grid;
-            return window;
         }
     }
 }
