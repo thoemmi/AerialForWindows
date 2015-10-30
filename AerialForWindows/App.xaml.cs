@@ -33,11 +33,13 @@ namespace AerialForWindows {
         }
 
         private static void ShowConfiguration(IntPtr parentHwnd) {
-                var dialog = new SettingsView();
+            var dialog = new SettingsView();
+            WindowInteropHelper windowInteropHelper = null;
             if (parentHwnd != IntPtr.Zero) {
-                new WindowInteropHelper(dialog) { Owner = parentHwnd };
+                windowInteropHelper = new WindowInteropHelper(dialog) { Owner = parentHwnd };
             }
             dialog.ShowDialog();
+            GC.KeepAlive(windowInteropHelper);
             Current.Shutdown();
         }
 
@@ -69,7 +71,9 @@ namespace AerialForWindows {
                 Window window;
                 switch (movieWindowsMode) {
                     case MovieWindowsMode.PrimaryScreenOnly:
-                        window = screen.Primary ? CreateMovieWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)) : CreateBlackoutWindow();
+                        window = screen.Primary
+                            ? CreateMovieWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay))
+                            : CreateBlackoutWindow();
                         break;
                     case MovieWindowsMode.AllScreensSameMovie:
                         if (movieUrl == null) {
@@ -100,7 +104,9 @@ namespace AerialForWindows {
         private Window CreateMovieWindow(string movieUrl) {
             var window = CreateBlackoutWindow();
             var mediaElement = new MediaElement {
-                Stretch = Stretch.Uniform, LoadedBehavior = MediaState.Play, Source = new Uri(movieUrl)
+                Stretch = Stretch.Uniform,
+                LoadedBehavior = MediaState.Play,
+                Source = new Uri(movieUrl)
             };
             window.Content = mediaElement;
             return window;
@@ -108,7 +114,11 @@ namespace AerialForWindows {
 
         private static Window CreateBlackoutWindow() {
             var window = new Window {
-                Background = Brushes.Black, ResizeMode = ResizeMode.NoResize, ShowInTaskbar = false, WindowStyle = WindowStyle.None
+                Background = Brushes.Black,
+                ResizeMode = ResizeMode.NoResize,
+                ShowInTaskbar = false,
+                WindowStyle = WindowStyle.None,
+                Title = "Aerial For Windows"
             };
             return window;
         }
