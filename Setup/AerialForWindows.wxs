@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  
+  <!-- Variables -->
+  <?define ProductName="Aerial For Windows" ?>
+  <?define ProductVersion="!(bind.FileVersion.AerialForWindows.scr)" ?>
+  <?define UpgradeCode = "{8B3C8AAA-7CCF-41CD-86BF-E7580DDBA375}" ?>
+  <?define HomepageUrl = "https://github.com/thoemmi/AerialForWindows" ?>
+  <?define SupportUrl = "https://github.com/thoemmi/AerialForWindows/issues" ?>
+  <?define Manufacturer = "Thomas Freudenberg" ?>
+  
+  <Product 
+    Id="*"
+    UpgradeCode="$(var.UpgradeCode)"
+    Name="$(var.ProductName)" 
+    Language="1033"
+    Version="$(var.ProductVersion)"
+    Manufacturer="$(var.Manufacturer)">
+
+    <Package InstallerVersion="300" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" CompressionLevel="high"/>
+
+    <!-- Installation Parts -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="WindowsFolder">
+        <Component Id="ProductComponent" Guid="{5CE65375-C730-4271-9CE2-A6E5D04E4AB3}">
+          <File Id='AerialForWindows.scr' Name='AerialForWindows.scr' Source='AerialForWindows\bin\$(var.Configuration)\AerialForWindows.scr' Vital='yes' />
+        </Component>
+      </Directory>
+      <Directory Id="SystemFolder" />
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
+      <ComponentRef Id="ProductComponent" />
+    </Feature>
+
+    <!-- Prerequisites -->
+    <PropertyRef Id="NETFRAMEWORK45"/>
+
+    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <!-- Custom Actions -->
+    <CustomAction Id="RunDialog" Directory="SystemFolder" ExeCommand="control.exe desk.cpl,,@screensaver" Return="asyncNoWait"/>
+
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+    
+    <UIRef Id="WixUI_Common" />
+    <!--<WixVariable Id="WixUIBannerBmp"  Value="$(sys.SOURCEFILEDIR)\..\Common\LogoLabs.bmp" />-->
+
+    <UI>
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+      <TextStyle Id="PseudoHyperlinkStyle" FaceName="Tahoma" Size="8" Underline="yes"/>
+
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="Minimal" />
+      <!-- No "change features" button -->
+      <Property Id="ARPNOMODIFY" Value="1" />
+
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+      <DialogRef Id="WelcomeEulaDlg" />
+
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="RunDialog" Order="1">NOT Installed</Publish>
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+    </UI>
+    
+  </Product>
+</Wix>
