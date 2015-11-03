@@ -20,13 +20,14 @@ namespace AerialForWindows {
 
 #if DEBUG
             if (Debugger.IsAttached) {
-                var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)) {
-                    ShowInTaskbar = true,
-                    WindowStyle = WindowStyle.SingleBorderWindow,
-                    ResizeMode = ResizeMode.CanResizeWithGrip
-                };
-                window.Show();
-                UpdateManager.Instance.CheckForUpdatesAsync();
+                ShowConfiguration(IntPtr.Zero);
+                //var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)) {
+                //    ShowInTaskbar = true,
+                //    WindowStyle = WindowStyle.SingleBorderWindow,
+                //    ResizeMode = ResizeMode.CanResizeWithGrip
+                //};
+                //window.Show();
+                //UpdateManager.Instance.CheckForUpdatesAsync();
             } else
 #endif
             if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
