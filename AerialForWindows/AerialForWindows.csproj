@@ -41,6 +41,10 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Octokit, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.16.0\lib\net45\Octokit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -72,6 +76,11 @@
     <Compile Include="SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Updates\GithubReleaseProvider.cs" />
+    <Compile Include="Updates\IReleaseProvider.cs" />
+    <Compile Include="Updates\IUpdateManager.cs" />
+    <Compile Include="Updates\ReleaseInfo.cs" />
+    <Compile Include="Updates\UpdateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interop.cs" />

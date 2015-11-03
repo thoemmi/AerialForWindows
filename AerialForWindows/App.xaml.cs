@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using AerialForWindows.Updates;
 using Cursors = System.Windows.Input.Cursors;
 
 namespace AerialForWindows {
@@ -25,6 +26,7 @@ namespace AerialForWindows {
                     ResizeMode = ResizeMode.CanResizeWithGrip
                 };
                 window.Show();
+                UpdateManager.Instance.CheckForUpdatesAsync();
             } else
 #endif
             if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
@@ -71,6 +73,8 @@ namespace AerialForWindows {
             _winWpfContent = new HwndSource(sourceParams);
             _winWpfContent.Disposed += (_, __) => window.Close();
             _winWpfContent.RootVisual = (Visual) window.Content;
+
+            UpdateManager.Instance.CheckForUpdatesAsync();
         }
 
         private void ShowScreensaver() {
@@ -103,6 +107,8 @@ namespace AerialForWindows {
 
                 window.Show();
             }
+
+            UpdateManager.Instance.CheckForUpdatesAsync();
         }
     }
 }
