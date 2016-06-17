@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
 using AerialForWindows.Updates;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using Cursors = System.Windows.Input.Cursors;
 
 namespace AerialForWindows {
@@ -12,11 +16,15 @@ namespace AerialForWindows {
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App {
+        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
         private HwndSource _winWpfContent;
         private readonly MovieManager _movieManager = new MovieManager();
 
         private void OnStartup(object sender, StartupEventArgs e) {
-            Debug.WriteLine("AerialScreensaver: parameters: " + String.Join(", ", e.Args));
+            ConfigureLogging();
+
+            _logger.Debug("AerialScreensaver: parameters: " + string.Join(", ", e.Args));
 
 #if DEBUG
             if (Debugger.IsAttached) {
@@ -43,6 +51,23 @@ namespace AerialForWindows {
                     }
                     ShowConfiguration(parentHwnd);
                 }
+        }
+
+        private static void ConfigureLogging() {
+            var config = new LoggingConfiguration();
+            var fileTarget = new FileTarget {
+                FileName = Path.Combine(AppEnvironment.DataFolder, "log.txt")
+            };
+            config.AddTarget("file", fileTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
+
+            if (Debugger.IsAttached) {
+                var debuggerTarget = new DebuggerTarget();
+                config.AddTarget("debugger", debuggerTarget);
+                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, debuggerTarget));
+            }
+
+            LogManager.Configuration = config;
         }
 
         private static void ShowConfiguration(IntPtr parentHwnd) {
