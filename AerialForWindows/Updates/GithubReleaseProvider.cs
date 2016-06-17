@@ -22,6 +22,7 @@ namespace AerialForWindows.Updates {
 
         public async Task<IReadOnlyCollection<ReleaseInfo>> GetReleaseInfosAsync() {
             var github = new GitHubClient(new ProductHeaderValue(_clientName));
+            github.Credentials = new Credentials("03b731b1b83c55354e023dc29af01a9524f0cf47");
             var result = new List<ReleaseInfo>();
             foreach (var release in await github.Release.GetAll(_repositoryOwner, _repositoryName)) {
                 var r = new ReleaseInfo {

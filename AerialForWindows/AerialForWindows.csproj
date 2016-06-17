@@ -87,6 +87,7 @@
     <Compile Include="Updates\IReleaseProvider.cs" />
     <Compile Include="Updates\IUpdateManager.cs" />
     <Compile Include="Updates\ReleaseInfo.cs" />
+    <Compile Include="Updates\TestReleaseProvider.cs" />
     <Compile Include="Updates\UpdateManager.cs" />
   </ItemGroup>
   <ItemGroup>

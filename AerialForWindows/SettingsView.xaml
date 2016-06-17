@@ -5,15 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AerialForWindows"
         xmlns:UiHelper="clr-namespace:AerialForWindows.UIHelper"
-        mc:Ignorable="d"
+        Title="{Binding Title}"
+        MinWidth="320"
+        MinHeight="190"
         SizeToContent="WidthAndHeight"
         ResizeMode="CanResizeWithGrip"
-        Title="Aerial For Windows" MinHeight="190" MinWidth="320">
+        mc:Ignorable="d">
     <Window.DataContext>
         <local:SettingsViewModel />
     </Window.DataContext>
     <Window.Resources>
         <UiHelper:EnumBooleanConverter x:Key="EnumBooleanConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -22,36 +25,55 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <CheckBox
-            Grid.Row="0" 
-            IsChecked="{Binding UseTimeOfDay}"
-            Margin="5 5 5 10"
-            Content="_Use time of day" />
+        <CheckBox Grid.Row="0"
+                  Margin="5 5 5 10"
+                  IsChecked="{Binding UseTimeOfDay}"
+                  Content="_Use time of day" />
 
-        <RadioButton 
-            Grid.Row="1" 
-            IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=PrimaryScreenOnly}"
-            Margin="5"
-            Content="Show movie on _primary screen only" />
-        <RadioButton 
-            Grid.Row="2" 
-            IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreensSameMovie}"
-            Margin="5"
-            Content="Show same movie on _all screens" />
-        <RadioButton 
-            Grid.Row="3" 
-            IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreenDifferentMovies}"
-            Margin="5"
-            Content="Show _different movies on all screens" />
+        <RadioButton Grid.Row="1"
+                     Margin="5"
+                     IsChecked="{Binding MovieWindowsMode,
+                                         Converter={StaticResource EnumBooleanConverter},
+                                         ConverterParameter=PrimaryScreenOnly}"
+                     Content="Show movie on _primary screen only" />
+        <RadioButton Grid.Row="2"
+                     Margin="5"
+                     IsChecked="{Binding MovieWindowsMode,
+                                         Converter={StaticResource EnumBooleanConverter},
+                                         ConverterParameter=AllScreensSameMovie}"
+                     Content="Show same movie on _all screens" />
+        <RadioButton Grid.Row="3"
+                     Margin="5"
+                     IsChecked="{Binding MovieWindowsMode,
+                                         Converter={StaticResource EnumBooleanConverter},
+                                         ConverterParameter=AllScreenDifferentMovies}"
+                     Content="Show _different movies on all screens" />
 
-        <StackPanel 
-            Margin="5 10 5 5"
-            Grid.Row="4" 
-            Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button IsDefault="True" Content="OK" Margin="0 0 5 0" MinWidth="73" MinHeight="21" Command="{Binding OkCommand}"/>
-            <Button IsCancel="True" Content="Cancel" MinWidth="73" MinHeight="21"/>
+        <TextBlock Grid.Row="4" Margin="5" FontWeight="Bold" Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Run Text="An update to" />
+            <Run Text="{Binding MostRecentUpdate.Version, Mode=OneWay}" />
+            <Run Text="is available. Click" />
+            <Hyperlink Command="{Binding UpdateClickCommand}">here</Hyperlink>
+            <Run Text="for release notes and download." />
+        </TextBlock>
+
+        <StackPanel Grid.Row="5"
+                    Margin="5 10 5 5"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button MinWidth="73"
+                    MinHeight="21"
+                    Margin="0 0 5 0"
+                    IsDefault="True"
+                    Content="OK"
+                    Command="{Binding OkCommand}" />
+            <Button MinWidth="73"
+                    MinHeight="21"
+                    IsCancel="True"
+                    Content="Cancel" />
         </StackPanel>
     </Grid>
 </Window>

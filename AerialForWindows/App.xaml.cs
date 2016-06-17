@@ -20,6 +20,7 @@ namespace AerialForWindows {
 
 #if DEBUG
             if (Debugger.IsAttached) {
+                UpdateManager.InitUpdateManagerForTests();
                 ShowConfiguration(IntPtr.Zero);
                 //var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)) {
                 //    ShowInTaskbar = true,
@@ -30,18 +31,18 @@ namespace AerialForWindows {
                 //UpdateManager.Instance.CheckForUpdatesAsync();
             } else
 #endif
-            if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
-                ShowScreensaver();
-            } else if (e.Args[0].ToLower().StartsWith("/p")) {
-                var previewHandle = Convert.ToInt32(e.Args[1]);
-                ShowPreview(new IntPtr(previewHandle));
-            } else if (e.Args[0].ToLower().StartsWith("/c")) {
-                var parentHwnd = IntPtr.Zero;
-                if (e.Args[0].Length > 3) {
-                    parentHwnd = new IntPtr(int.Parse(e.Args[0].Substring(3)));
+                if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
+                    ShowScreensaver();
+                } else if (e.Args[0].ToLower().StartsWith("/p")) {
+                    var previewHandle = Convert.ToInt32(e.Args[1]);
+                    ShowPreview(new IntPtr(previewHandle));
+                } else if (e.Args[0].ToLower().StartsWith("/c")) {
+                    var parentHwnd = IntPtr.Zero;
+                    if (e.Args[0].Length > 3) {
+                        parentHwnd = new IntPtr(int.Parse(e.Args[0].Substring(3)));
+                    }
+                    ShowConfiguration(parentHwnd);
                 }
-                ShowConfiguration(parentHwnd);
-            }
         }
 
         private static void ShowConfiguration(IntPtr parentHwnd) {

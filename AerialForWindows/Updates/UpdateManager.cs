@@ -24,6 +24,15 @@ namespace AerialForWindows.Updates {
             }
         }
 
+        public static void InitUpdateManagerForTests()
+        {
+            if (_instance != null) {
+                throw new InvalidOperationException("Instance is already initialized.");
+            }
+            var releaseProvider = new TestReleaseProvider();
+            _instance = new UpdateManager(releaseProvider, new Version(0, 1));
+        }
+
         private UpdateManager(IReleaseProvider reader, Version currentVersion) {
             _currentVersion = currentVersion;
             _reader = reader;
