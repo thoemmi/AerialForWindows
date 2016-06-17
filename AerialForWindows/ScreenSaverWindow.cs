@@ -13,7 +13,6 @@ namespace AerialForWindows {
     public class ScreenSaverWindow : Window {
         private readonly string _movieUrl;
         private TextBlock _textBlockError;
-        private TextBlock _textBlockUpdate;
 
         public ScreenSaverWindow(string movieUrl = null) {
             _movieUrl = movieUrl;
