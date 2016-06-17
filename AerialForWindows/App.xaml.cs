@@ -57,7 +57,7 @@ namespace AerialForWindows {
         }
 
         private void ShowPreview(IntPtr previewHwnd) {
-            var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
+            var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.Instance.UseTimeOfDay));
 
             var lpRect = new RECT();
             var bGetRect = Win32API.GetClientRect(previewHwnd, ref lpRect);
@@ -80,19 +80,20 @@ namespace AerialForWindows {
         }
 
         private void ShowScreensaver() {
-            var movieWindowsMode = Settings.MovieWindowsMode;
+            var movieWindowsMode = Settings.Instance.MovieWindowsMode;
             string movieUrl = null;
             foreach (var screen in Screen.AllScreens) {
                 Window window;
+                var useTimeOfDay = Settings.Instance.UseTimeOfDay;
                 switch (movieWindowsMode) {
                     case MovieWindowsMode.PrimaryScreenOnly:
-                        window = new ScreenSaverWindow(screen.Primary ? _movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay) : null);
+                        window = new ScreenSaverWindow(screen.Primary ? _movieManager.GetRandomAssetUrl(useTimeOfDay) : null);
                         break;
                     case MovieWindowsMode.AllScreensSameMovie:
-                        window = new ScreenSaverWindow(movieUrl ?? (movieUrl = _movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)));
+                        window = new ScreenSaverWindow(movieUrl ?? (movieUrl = _movieManager.GetRandomAssetUrl(useTimeOfDay)));
                         break;
                     case MovieWindowsMode.AllScreenDifferentMovies:
-                        window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay));
+                        window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(useTimeOfDay));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

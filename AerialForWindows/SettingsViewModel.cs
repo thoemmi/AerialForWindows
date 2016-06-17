@@ -10,8 +10,8 @@ namespace AerialForWindows {
     public class SettingsViewModel {
         public SettingsViewModel() {
             Title = ((AssemblyTitleAttribute) GetType().Assembly.GetCustomAttribute(typeof(AssemblyTitleAttribute))).Title + " - " + AssemblyName.GetAssemblyName(typeof(UpdateManager).Assembly.Location).Version;
-            UseTimeOfDay = Settings.UseTimeOfDay;
-            MovieWindowsMode = Settings.MovieWindowsMode;
+            UseTimeOfDay = Settings.Instance.UseTimeOfDay;
+            MovieWindowsMode = Settings.Instance.MovieWindowsMode;
             OkCommand = new DelegateCommand(OnOk);
             UpdateClickCommand = new DelegateCommand(OnUpdateClickCommand);
 
@@ -36,8 +36,9 @@ namespace AerialForWindows {
         public ReleaseInfo MostRecentUpdate { get; set; }
 
         private void OnOk() {
-            Settings.UseTimeOfDay = UseTimeOfDay;
-            Settings.MovieWindowsMode = MovieWindowsMode;
+            Settings.Instance.UseTimeOfDay = UseTimeOfDay;
+            Settings.Instance.MovieWindowsMode = MovieWindowsMode;
+            Settings.Instance.Save();
 
             CloseAction?.Invoke();
         }

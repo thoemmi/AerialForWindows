@@ -1,37 +1,58 @@
-﻿using Microsoft.Win32;
+﻿using System.IO;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AerialForWindows {
-    public static class Settings {
+    public class Settings {
         private const string RegKey = @"Software\AerialForWindows";
+        private static readonly string SettingsPath = Path.Combine(AppEnvironment.DataFolder, "settings.json");
 
-        public static bool UseTimeOfDay
-        {
-            get { return ReadInteger("UseTimeOfDay", 0) != 0; }
-            set { WriteInteger("UseTimeOfDay", value ? 1 : 0); }
-        }
+        public static Settings Instance { get; } = new Settings();
 
-
-        public static MovieWindowsMode MovieWindowsMode
-        {
-            get { return (MovieWindowsMode) ReadInteger("MovieWindowsMode", (int) MovieWindowsMode.PrimaryScreenOnly); }
-            set { WriteInteger("MovieWindowsMode", (int) value); }
-        }
-
-        private static int ReadInteger(string name, int defaultValue) {
-            using (var key = Registry.CurrentUser.OpenSubKey(RegKey)) {
-                var val = key?.GetValue(name);
-                if (val is int) {
-                    return (int) val;
+        private Settings() {
+            if (File.Exists(SettingsPath)) {
+                try {
+                    var fileData = File.ReadAllText(SettingsPath);
+                    JsonConvert.PopulateObject(fileData, this);
+                } catch {
                 }
+            } else {
+                // migrate settings from registry
+                using (var key = Registry.CurrentUser.OpenSubKey(RegKey)) {
+                    if (key != null) {
+                        UseTimeOfDay = ReadInteger(key, "UseTimeOfDay", 0) != 0;
+                        MovieWindowsMode = (MovieWindowsMode) ReadInteger(key, "MovieWindowsMode", (int) MovieWindowsMode.PrimaryScreenOnly);
+                    }
+                }
+            }
+        }
+
+        public void Save() {
+            try {
+                var folder = Path.GetDirectoryName(SettingsPath);
+                if (!Directory.Exists(folder)) {
+                    Directory.CreateDirectory(folder);
+                }
+                using (var textWriter = new StreamWriter(SettingsPath)) {
+                    textWriter.WriteLine(JsonConvert.SerializeObject(this, Formatting.Indented));
+                }
+            } catch {
+            }
+        }
+
+        public bool UseTimeOfDay { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public MovieWindowsMode MovieWindowsMode { get; set; }
+
+        private static int ReadInteger(RegistryKey key, string name, int defaultValue) {
+            var val = key?.GetValue(name);
+            if (val is int) {
+                return (int) val;
             }
 
             return defaultValue;
-        }
-
-        private static void WriteInteger(string name, int value) {
-            using (var key = Registry.CurrentUser.CreateSubKey(RegKey)) {
-                key.SetValue(name, value, RegistryValueKind.DWord);
-            }
         }
     }
 
