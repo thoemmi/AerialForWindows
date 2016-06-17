@@ -22,9 +22,8 @@ namespace AerialForWindows.Updates {
 
         public async Task<IReadOnlyCollection<ReleaseInfo>> GetReleaseInfosAsync() {
             var github = new GitHubClient(new ProductHeaderValue(_clientName));
-            github.Credentials = new Credentials("03b731b1b83c55354e023dc29af01a9524f0cf47");
             var result = new List<ReleaseInfo>();
-            foreach (var release in await github.Release.GetAll(_repositoryOwner, _repositoryName)) {
+            foreach (var release in await github.Repository.Release.GetAll(_repositoryOwner, _repositoryName)) {
                 var r = new ReleaseInfo {
                     Name = String.IsNullOrWhiteSpace(release.Name) ? release.TagName : release.Name,
                     ReleaseNotes = release.Body,
@@ -35,7 +34,7 @@ namespace AerialForWindows.Updates {
                     IsPrerelease = release.Prerelease,
                 };
 
-                var assets = await github.Release.GetAllAssets(_repositoryOwner, _repositoryName, release.Id);
+                var assets = await github.Repository.Release.GetAllAssets(_repositoryOwner, _repositoryName, release.Id);
                 var asset = assets.FirstOrDefault(a => a.Name.EndsWith(".msi"));
                 if (asset != null) {
                     r.Filename = asset.Name;
