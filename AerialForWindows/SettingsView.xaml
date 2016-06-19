@@ -9,6 +9,7 @@
         MinWidth="320"
         MinHeight="190"
         SizeToContent="WidthAndHeight"
+        Icon="App.ico"
         ResizeMode="CanResizeWithGrip"
         mc:Ignorable="d">
     <Window.DataContext>

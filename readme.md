@@ -18,17 +18,17 @@ After successful installation the setup will open the **Screen Saver Settings** 
 2. Unblock the *.scr* file by opening its properties and clicking **Unblock**
 3. Right-click on the downloaded *.scr* file and select **Install** 
 
-![Screen Saver Settings](assets/ScreenSaverSettings.png)
+![Screen Saver Settings](assets/ScreenSaverSettings.gif)
 
 ## Features
 
-* **Auto Load Latest Aerials**: The movies are loaded directly from Apple whenever the screen saver starts.
-* **Time of day**: There are different movies for day and night. You can choose to show movies matching the current time (thresholds are 7am and 7pm). 
-* **Select screens**: If you've got multiple screens, you can select whether there's a movie played only on the primary screen, the same move on all screens, or a different movie on each screen.
+* **Auto Load Latest Aerials:** The movies are loaded directly from Apple whenever the screen saver starts.
+* **Time of day:** There are different movies for day and night. You can choose to show movies matching the current time (thresholds are 7am and 7pm). 
+* **Select screens:** If you've got multiple screens, you can select whether there's a movie played only on the primary screen, the same move on all screens, or a different movie on each screen.
+* **Auto-update:** Both the movie window and the settings dialog show a notification when an update is available.
+* **Local Caching:** Option to cache the movies locally. **Note:** This required at least 6 GB of free disk space.
 
 ![Screen Saver Settings](assets/AerialForWindows.png)
-
-**Aerial For Windows** does not cache the movies locally yet. The movies take hundreds of megabytes, so please be aware of the bandwidth consumption.
 
 ## Compatibility
 
@@ -36,9 +36,7 @@ After successful installation the setup will open the **Screen Saver Settings** 
 
 ## Planned Features
 
-* Local caching of movies to save bandwidth and faster start of playback
 * Selection of favorite locations 
-* Windows installer with auto-update
 
 ## Community
 
@@ -51,7 +49,16 @@ I appreciate all pull requests.
 
 ## Changelog
 
-* October 29th, 2015 - 0.1
+* June 19th, 2015 - v0.4
+  * Added local caching
+* June 17th, 2015 - v0.3
+  * Show update notification
+  * Settings are now stored in the file system (at `%LOCALAPPDATA%\AerialForWindows`) instead of the registry
+  * Added logging (in `%LOCALAPPDATA%\AerialForWindows` too) 
+* November 3rd, 2015 - v0.2
+  * added Setup
+  * show error when movie playback fails
+* October 29th, 2015 - v0.1
   * First release
 
 ## License
