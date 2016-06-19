@@ -68,6 +68,10 @@ namespace AerialForWindows {
         [JsonConverter(typeof(StringEnumConverter))]
         public MovieWindowsMode MovieWindowsMode { get; set; }
 
+        public bool ShouldCacheMovies { get; set; }
+        public string CachePath { get; set; }
+        public Guid? BitsJobId { get; set; }
+
         private static int ReadInteger(RegistryKey key, string name, int defaultValue) {
             var val = key?.GetValue(name);
             if (val is int) {
