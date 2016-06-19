@@ -57,7 +57,7 @@
         <CheckBox Grid.Row="4"
                   Margin="5"
                   IsChecked="{Binding ShouldCacheMovies}"
-                  Content="_Cache movies locally" />
+                  Content="_Cache movies locally (Caching will require 6 GB of free disk space)" />
         <Grid Grid.Row="5"
               Margin="20 0 5 5"
               IsEnabled="{Binding ShouldCacheMovies}">
