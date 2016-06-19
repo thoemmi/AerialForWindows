@@ -79,6 +79,19 @@ namespace AerialForWindows.Services {
             }
         }
 
+        public static void CancelRunningJob() {
+            if (Settings.Instance.BitsJobId.HasValue) {
+                using (var bitsManager = new BitsManager()) {
+                    BitsJob runningJob;
+                    if (bitsManager.EnumJobs().TryGetValue(Settings.Instance.BitsJobId.Value, out runningJob)) {
+                        runningJob.Cancel();
+                    }
+                }
+                Settings.Instance.BitsJobId = null;
+                Settings.Instance.Save();
+            }
+        }
+
         private static bool CheckRunningJob(BitsManager bitsManager) {
             if (Settings.Instance.BitsJobId.HasValue) {
                 BitsJob runningJob;

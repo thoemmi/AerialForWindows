@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Input;
+using AerialForWindows.Services;
 using AerialForWindows.Updates;
 using PropertyChanged;
 
@@ -14,7 +15,8 @@ namespace AerialForWindows {
             Title = ((AssemblyTitleAttribute) GetType().Assembly.GetCustomAttribute(typeof(AssemblyTitleAttribute))).Title + " - " + AssemblyName.GetAssemblyName(typeof(UpdateManager).Assembly.Location).Version;
             UseTimeOfDay = Settings.Instance.UseTimeOfDay;
             MovieWindowsMode = Settings.Instance.MovieWindowsMode;
-            CachePath = !string.IsNullOrEmpty(CachePath) ? CachePath : Path.Combine(AppEnvironment.DataFolder, "Cache");
+            ShouldCacheMovies = Settings.Instance.ShouldCacheMovies;
+            CachePath = !string.IsNullOrEmpty(Settings.Instance.CachePath) ? Settings.Instance.CachePath : Path.Combine(AppEnvironment.DataFolder, "Cache");
 
             OkCommand = new DelegateCommand(OnOk);
             UpdateClickCommand = new DelegateCommand(OnUpdateClickCommand);
@@ -47,6 +49,10 @@ namespace AerialForWindows {
         private void OnOk() {
             if (ShouldCacheMovies && !Directory.Exists(CachePath)) {
                 Directory.CreateDirectory(CachePath);
+            }
+
+            if (!ShouldCacheMovies) {
+                MovieManager.CancelRunningJob();
             }
 
             Settings.Instance.UseTimeOfDay = UseTimeOfDay;
