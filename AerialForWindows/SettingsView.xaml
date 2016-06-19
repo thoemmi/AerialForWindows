@@ -26,6 +26,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <CheckBox Grid.Row="0"
@@ -52,7 +54,36 @@
                                          ConverterParameter=AllScreenDifferentMovies}"
                      Content="Show _different movies on all screens" />
 
-        <TextBlock Grid.Row="4" Margin="5" FontWeight="Bold" Visibility="{Binding IsUpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <CheckBox Grid.Row="4"
+                  Margin="5"
+                  IsChecked="{Binding ShouldCacheMovies}"
+                  Content="_Cache movies locally" />
+        <Grid Grid.Row="5"
+              Margin="20 0 5 5"
+              IsEnabled="{Binding ShouldCacheMovies}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Cache pa_th:" />
+            <TextBox Grid.Column="1"
+                     VerticalContentAlignment="Center"
+                     IsReadOnly="True"
+                     Text="{Binding CachePath}" />
+            <Button Grid.Column="2"
+                    Width="{Binding RelativeSource={RelativeSource Self},
+                                    Path=ActualHeight}"
+                    Margin="5 0 0 0"
+                    Content="..."
+                    Command="{Binding BrowseCachePathCommand}" />
+        </Grid>
+
+        <TextBlock Grid.Row="6"
+                   Margin="5"
+                   FontWeight="Bold"
+                   Visibility="{Binding IsUpdateAvailable,
+                                        Converter={StaticResource BooleanToVisibilityConverter}}">
             <Run Text="An update to" />
             <Run Text="{Binding MostRecentUpdate.Version, Mode=OneWay}" />
             <Run Text="is available. Click" />
@@ -60,7 +91,7 @@
             <Run Text="for release notes and download." />
         </TextBlock>
 
-        <StackPanel Grid.Row="5"
+        <StackPanel Grid.Row="7"
                     Margin="5 10 5 5"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
