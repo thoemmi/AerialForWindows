@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using AerialForWindows.Services;
 using AerialForWindows.Updates;
 using NLog;
 using NLog.Config;

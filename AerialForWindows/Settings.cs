@@ -70,6 +70,7 @@ namespace AerialForWindows {
 
         public bool ShouldCacheMovies { get; set; }
         public string CachePath { get; set; }
+        public Guid? BitsJobId { get; set; }
 
         private static int ReadInteger(RegistryKey key, string name, int defaultValue) {
             var val = key?.GetValue(name);
