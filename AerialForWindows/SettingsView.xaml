@@ -10,7 +10,7 @@
         MinHeight="190"
         SizeToContent="WidthAndHeight"
         Icon="App.ico"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="NoResize"
         mc:Ignorable="d">
     <Window.DataContext>
         <local:SettingsViewModel />
@@ -24,63 +24,87 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <CheckBox Grid.Row="0"
-                  Margin="5 5 5 10"
-                  IsChecked="{Binding UseTimeOfDay}"
-                  Content="_Use time of day" />
+        <UiHelper:TabControlEx>
+            <TabItem Header="Video">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <CheckBox Grid.Row="0"
+                              Margin="5 5 5 10"
+                              IsChecked="{Binding UseTimeOfDay}"
+                              Content="_Use time of day" />
 
-        <RadioButton Grid.Row="1"
-                     Margin="5"
-                     IsChecked="{Binding MovieWindowsMode,
-                                         Converter={StaticResource EnumBooleanConverter},
-                                         ConverterParameter=PrimaryScreenOnly}"
-                     Content="Show movie on _primary screen only" />
-        <RadioButton Grid.Row="2"
-                     Margin="5"
-                     IsChecked="{Binding MovieWindowsMode,
-                                         Converter={StaticResource EnumBooleanConverter},
-                                         ConverterParameter=AllScreensSameMovie}"
-                     Content="Show same movie on _all screens" />
-        <RadioButton Grid.Row="3"
-                     Margin="5"
-                     IsChecked="{Binding MovieWindowsMode,
-                                         Converter={StaticResource EnumBooleanConverter},
-                                         ConverterParameter=AllScreenDifferentMovies}"
-                     Content="Show _different movies on all screens" />
+                    <RadioButton Grid.Row="1"
+                                 Margin="5"
+                                 IsChecked="{Binding MovieWindowsMode,
+                                                     Converter={StaticResource EnumBooleanConverter},
+                                                     ConverterParameter=PrimaryScreenOnly}"
+                                 Content="Show movie on _primary screen only" />
+                    <RadioButton Grid.Row="2"
+                                 Margin="5"
+                                 IsChecked="{Binding MovieWindowsMode,
+                                                     Converter={StaticResource EnumBooleanConverter},
+                                                     ConverterParameter=AllScreensSameMovie}"
+                                 Content="Show same movie on _all screens" />
+                    <RadioButton Grid.Row="3"
+                                 Margin="5"
+                                 IsChecked="{Binding MovieWindowsMode,
+                                                     Converter={StaticResource EnumBooleanConverter},
+                                                     ConverterParameter=AllScreenDifferentMovies}"
+                                 Content="Show _different movies on all screens" />
+                </Grid>
 
-        <CheckBox Grid.Row="4"
-                  Margin="5"
-                  IsChecked="{Binding ShouldCacheMovies}"
-                  Content="_Cache movies locally (Caching will require 6 GB of free disk space)" />
-        <Grid Grid.Row="5"
-              Margin="20 0 5 5"
-              IsEnabled="{Binding ShouldCacheMovies}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Cache pa_th:" />
-            <TextBox Grid.Column="1"
-                     VerticalContentAlignment="Center"
-                     IsReadOnly="True"
-                     Text="{Binding CachePath}" />
-            <Button Grid.Column="2"
-                    Width="{Binding RelativeSource={RelativeSource Self},
-                                    Path=ActualHeight}"
-                    Margin="5 0 0 0"
-                    Content="..."
-                    Command="{Binding BrowseCachePathCommand}" />
-        </Grid>
+            </TabItem>
+            <TabItem Header="_Cache">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Row="0"
+                              Grid.ColumnSpan="3"
+                              Margin="5"
+                              IsChecked="{Binding ShouldCacheMovies}"
+                              Content="_Cache movies locally (Caching will require 6 GB of free disk space)" />
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Margin="20 0 0 0"
+                           IsEnabled="{Binding ShouldCacheMovies}"
+                           Content="Cache pa_th:" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             IsEnabled="{Binding ShouldCacheMovies}"
+                             IsReadOnly="True"
+                             Text="{Binding CachePath}" />
+                    <Button Grid.Row="1"
+                            Grid.Column="2"
+                            Width="{Binding RelativeSource={RelativeSource Self},
+                                            Path=ActualHeight}"
+                            Margin="5 0 0 0"
+                            IsEnabled="{Binding ShouldCacheMovies}"
+                            Content="..."
+                            Command="{Binding BrowseCachePathCommand}" />
 
-        <TextBlock Grid.Row="6"
+                </Grid>
+            </TabItem>
+        </UiHelper:TabControlEx>
+
+        <TextBlock Grid.Row="1"
                    Margin="5"
                    FontWeight="Bold"
                    Visibility="{Binding IsUpdateAvailable,
@@ -92,7 +116,7 @@
             <Run Text="for release notes and download." />
         </TextBlock>
 
-        <StackPanel Grid.Row="7"
+        <StackPanel Grid.Row="2"
                     Margin="5 10 5 5"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">

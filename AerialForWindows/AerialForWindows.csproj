@@ -74,6 +74,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -97,6 +98,7 @@
     <Compile Include="SettingsViewModel.cs" />
     <Compile Include="UIHelper\DelegateCommand.cs" />
     <Compile Include="UIHelper\EnumBooleanConverter.cs" />
+    <Compile Include="UIHelper\TabControlEx.cs" />
     <Compile Include="Updates\GithubReleaseProvider.cs" />
     <Compile Include="Updates\IReleaseProvider.cs" />
     <Compile Include="Updates\IUpdateManager.cs" />
