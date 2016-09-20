@@ -31,7 +31,7 @@ namespace AerialForWindowsTester {
                 mediaElement.Stop();
             }
 
-            var movieController = new MediaElementController(_movieManager, 2);
+            var movieController = MediaElementController.CreateController(_movieManager, 2);
             _screen1.Content = movieController.MediaElements[0];
             _screen2.Content = movieController.MediaElements[1];
         }

@@ -30,28 +30,21 @@ namespace AerialForWindows {
 #if DEBUG
             if (Debugger.IsAttached) {
                 UpdateManager.InitUpdateManagerForTests();
-                //ShowConfiguration(IntPtr.Zero);
-                var window = new ScreenSaverWindow(new MediaElementController(_movieManager, 1), 0) {
-                    ShowInTaskbar = true,
-                    WindowStyle = WindowStyle.SingleBorderWindow,
-                    ResizeMode = ResizeMode.CanResizeWithGrip
-                };
-                window.Show();
-                //UpdateManager.Instance.CheckForUpdatesAsync();
-            } else
+            }
 #endif
-                if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
-                    ShowScreensaver();
-                } else if (e.Args[0].ToLower().StartsWith("/p")) {
-                    var previewHandle = Convert.ToInt32(e.Args[1]);
-                    ShowPreview(new IntPtr(previewHandle));
-                } else if (e.Args[0].ToLower().StartsWith("/c")) {
-                    var parentHwnd = IntPtr.Zero;
-                    if (e.Args[0].Length > 3) {
-                        parentHwnd = new IntPtr(int.Parse(e.Args[0].Substring(3)));
-                    }
-                    ShowConfiguration(parentHwnd);
+
+            if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
+                ShowScreensaver();
+            } else if (e.Args[0].ToLower().StartsWith("/p")) {
+                var previewHandle = Convert.ToInt32(e.Args[1]);
+                ShowPreview(new IntPtr(previewHandle));
+            } else if (e.Args[0].ToLower().StartsWith("/c")) {
+                var parentHwnd = IntPtr.Zero;
+                if (e.Args[0].Length > 3) {
+                    parentHwnd = new IntPtr(int.Parse(e.Args[0].Substring(3)));
                 }
+                ShowConfiguration(parentHwnd);
+            }
         }
 
         private static void ConfigureLogging() {
@@ -83,7 +76,9 @@ namespace AerialForWindows {
         }
 
         private void ShowPreview(IntPtr previewHwnd) {
-            var window = new ScreenSaverWindow(new MediaElementController(_movieManager, 1), 0);
+            var mediaElementController = new PrimayScreenOnlyPolicy(_movieManager, 1);
+            var window = new ScreenSaverWindow(mediaElementController, 0);
+            mediaElementController.Start();
 
             var lpRect = new RECT();
             var bGetRect = Win32API.GetClientRect(previewHwnd, ref lpRect);
@@ -106,7 +101,7 @@ namespace AerialForWindows {
         }
 
         private void ShowScreensaver() {
-            var movieController = new MediaElementController(_movieManager, Screen.AllScreens.Length);
+            var movieController = MediaElementController.CreateController(_movieManager, Screen.AllScreens.Length);
             for (var i = 0; i < Screen.AllScreens.Length; ++i) {
                 var screen = Screen.AllScreens[i];
                 Window window = new ScreenSaverWindow(movieController, i);

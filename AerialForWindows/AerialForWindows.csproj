@@ -84,12 +84,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AllScreenDifferentMoviesController.cs" />
+    <Compile Include="AllScreensSameMovieController.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppEnvironment.cs" />
     <Compile Include="MediaElementController.cs" />
+    <Compile Include="PrimayScreenOnlyPolicy.cs" />
     <Compile Include="ScreenSaverWindow.cs" />
     <Compile Include="Services\AssetClient.cs" />
     <Compile Include="Settings.cs" />

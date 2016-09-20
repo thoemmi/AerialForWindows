@@ -12,6 +12,7 @@ namespace AerialForWindows.Services {
     public class MovieManager {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly List<Movie> _movies = new List<Movie>();
+        private readonly Random _random = new Random();
 
         private static readonly string MoviesPath = Path.Combine(AppEnvironment.DataFolder, "movies.json");
         private bool _loaded;
@@ -161,7 +162,7 @@ namespace AerialForWindows.Services {
                 movies = movies.Where(asset => asset.TimeOfDay == timeOfDay).ToArray();
             }
 
-            var movie = movies[(new Random()).Next(movies.Length)];
+            var movie = movies[_random.Next(movies.Length)];
             return !string.IsNullOrEmpty(movie.LocalPath) && File.Exists(movie.LocalPath)
                 ? movie.LocalPath
                 : movie.DownloadUrl;
