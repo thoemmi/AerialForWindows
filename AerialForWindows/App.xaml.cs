@@ -30,13 +30,13 @@ namespace AerialForWindows {
 #if DEBUG
             if (Debugger.IsAttached) {
                 UpdateManager.InitUpdateManagerForTests();
-                ShowConfiguration(IntPtr.Zero);
-                //var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.UseTimeOfDay)) {
-                //    ShowInTaskbar = true,
-                //    WindowStyle = WindowStyle.SingleBorderWindow,
-                //    ResizeMode = ResizeMode.CanResizeWithGrip
-                //};
-                //window.Show();
+                //ShowConfiguration(IntPtr.Zero);
+                var window = new ScreenSaverWindow(new MediaElementController(_movieManager, 1), 0) {
+                    ShowInTaskbar = true,
+                    WindowStyle = WindowStyle.SingleBorderWindow,
+                    ResizeMode = ResizeMode.CanResizeWithGrip
+                };
+                window.Show();
                 //UpdateManager.Instance.CheckForUpdatesAsync();
             } else
 #endif
@@ -83,7 +83,7 @@ namespace AerialForWindows {
         }
 
         private void ShowPreview(IntPtr previewHwnd) {
-            var window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(Settings.Instance.UseTimeOfDay));
+            var window = new ScreenSaverWindow(new MediaElementController(_movieManager, 1), 0);
 
             var lpRect = new RECT();
             var bGetRect = Win32API.GetClientRect(previewHwnd, ref lpRect);
@@ -106,24 +106,10 @@ namespace AerialForWindows {
         }
 
         private void ShowScreensaver() {
-            var movieWindowsMode = Settings.Instance.MovieWindowsMode;
-            string movieUrl = null;
-            foreach (var screen in Screen.AllScreens) {
-                Window window;
-                var useTimeOfDay = Settings.Instance.UseTimeOfDay;
-                switch (movieWindowsMode) {
-                    case MovieWindowsMode.PrimaryScreenOnly:
-                        window = new ScreenSaverWindow(screen.Primary ? _movieManager.GetRandomAssetUrl(useTimeOfDay) : null);
-                        break;
-                    case MovieWindowsMode.AllScreensSameMovie:
-                        window = new ScreenSaverWindow(movieUrl ?? (movieUrl = _movieManager.GetRandomAssetUrl(useTimeOfDay)));
-                        break;
-                    case MovieWindowsMode.AllScreenDifferentMovies:
-                        window = new ScreenSaverWindow(_movieManager.GetRandomAssetUrl(useTimeOfDay));
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+            var movieController = new MediaElementController(_movieManager, Screen.AllScreens.Length);
+            for (var i = 0; i < Screen.AllScreens.Length; ++i) {
+                var screen = Screen.AllScreens[i];
+                Window window = new ScreenSaverWindow(movieController, i);
                 window.Cursor = Cursors.None;
                 window.Left = screen.Bounds.Left;
                 window.Top = screen.Bounds.Top;

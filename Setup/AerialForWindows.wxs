@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  
+
   <!-- Variables -->
   <?define ProductName="Aerial For Windows" ?>
   <?define ProductVersion="!(bind.FileVersion.AerialForWindows.scr)" ?>
@@ -8,11 +8,11 @@
   <?define HomepageUrl = "https://github.com/thoemmi/AerialForWindows" ?>
   <?define SupportUrl = "https://github.com/thoemmi/AerialForWindows/issues" ?>
   <?define Manufacturer = "Thomas Freudenberg" ?>
-  
-  <Product 
+
+  <Product
     Id="*"
     UpgradeCode="$(var.UpgradeCode)"
-    Name="$(var.ProductName)" 
+    Name="$(var.ProductName)"
     Language="1033"
     Version="$(var.ProductVersion)"
     Manufacturer="$(var.Manufacturer)">
@@ -36,17 +36,17 @@
     </Feature>
 
     <!-- Prerequisites -->
-    <PropertyRef Id="NETFRAMEWORK45"/>
+    <PropertyRef Id="NETFRAMEWORK46"/>
 
-    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    <Condition Message="This application requires .NET Framework 4.6. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK46]]>
     </Condition>
 
     <!-- Custom Actions -->
     <CustomAction Id="RunDialog" Directory="SystemFolder" ExeCommand="control.exe desk.cpl,,@screensaver" Return="asyncNoWait"/>
 
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
-    
+
     <UIRef Id="WixUI_Common" />
     <!--<WixVariable Id="WixUIBannerBmp"  Value="$(sys.SOURCEFILEDIR)\..\Common\LogoLabs.bmp" />-->
 
@@ -82,6 +82,6 @@
       <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="RunDialog" Order="1">NOT Installed</Publish>
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
     </UI>
-    
+
   </Product>
 </Wix>

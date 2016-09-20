@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NLog;
@@ -13,11 +14,19 @@ namespace AerialForWindows.Services {
         private readonly List<Movie> _movies = new List<Movie>();
 
         private static readonly string MoviesPath = Path.Combine(AppEnvironment.DataFolder, "movies.json");
+        private bool _loaded;
 
-        private void EnsureLoaded() {
+        public async Task EnsureLoadedAsync() {
+            if (_loaded) {
+                return;
+            }
+
             if (File.Exists(MoviesPath)) {
                 try {
-                    var fileData = File.ReadAllText(MoviesPath);
+                    string fileData;
+                    using (var reader = File.OpenText(MoviesPath)) {
+                        fileData = await reader.ReadToEndAsync();
+                    }
                     JsonConvert.PopulateObject(fileData, _movies);
                     _logger.Debug("Movies loaded");
                 } catch (Exception ex) {
@@ -26,7 +35,8 @@ namespace AerialForWindows.Services {
             }
 
             var assetClient = new AssetClient();
-            foreach (var asset in assetClient.GetAssets()) {
+            var assets = await assetClient.GetAssetsAsync();
+            foreach (var asset in assets) {
                 if (_movies.All(a => a.AssetId != asset.Id)) {
                     var movie = new Movie {
                         AssetId = asset.Id,
@@ -43,6 +53,8 @@ namespace AerialForWindows.Services {
             }
 
             Save();
+
+            _loaded = true;
         }
 
         private void DownloadMovies() {
@@ -136,15 +148,15 @@ namespace AerialForWindows.Services {
             }
         }
 
-        public string GetRandomAssetUrl(bool useTimeOfDay) {
-            EnsureLoaded();
+        public string GetRandomAssetUrl() {
+            EnsureLoadedAsync().Wait();
 
             if (!_movies.Any()) {
                 return null;
             }
 
             var movies = _movies.ToArray();
-            if (useTimeOfDay) {
+            if (Settings.Instance.UseTimeOfDay) {
                 var timeOfDay = (DateTime.Now.Hour > 7 && DateTime.Now.Hour < 19) ? TimeOfDay.Day : TimeOfDay.Night;
                 movies = movies.Where(asset => asset.TimeOfDay == timeOfDay).ToArray();
             }

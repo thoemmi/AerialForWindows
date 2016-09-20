@@ -16,6 +16,7 @@ namespace AerialForWindows {
             UseTimeOfDay = Settings.Instance.UseTimeOfDay;
             MovieWindowsMode = Settings.Instance.MovieWindowsMode;
             ShouldCacheMovies = Settings.Instance.ShouldCacheMovies;
+            PlayInLoop = Settings.Instance.PlayInLoop;
             CachePath = !string.IsNullOrEmpty(Settings.Instance.CachePath) ? Settings.Instance.CachePath : Path.Combine(AppEnvironment.DataFolder, "Cache");
 
             OkCommand = new DelegateCommand(OnOk);
@@ -36,12 +37,14 @@ namespace AerialForWindows {
         public bool UseTimeOfDay { get; set; }
         public MovieWindowsMode MovieWindowsMode { get; set; }
 
+        public bool PlayInLoop { get; set; }
+
         public ICommand OkCommand { get; }
         public ICommand UpdateClickCommand { get; }
         public ICommand BrowseCachePathCommand { get; }
         public Action CloseAction { get; set; }
         public bool IsUpdateAvailable { get; set; }
-        public ReleaseInfo MostRecentUpdate { get; set; }
+        public ReleaseInfo MostRecentUpdate { get; private set; }
 
         public bool ShouldCacheMovies { get; set; }
         public string CachePath { get; set; }
@@ -59,6 +62,7 @@ namespace AerialForWindows {
             Settings.Instance.MovieWindowsMode = MovieWindowsMode;
             Settings.Instance.ShouldCacheMovies = ShouldCacheMovies;
             Settings.Instance.CachePath = CachePath;
+            Settings.Instance.PlayInLoop = PlayInLoop;
             Settings.Instance.Save();
 
             CloseAction?.Invoke();

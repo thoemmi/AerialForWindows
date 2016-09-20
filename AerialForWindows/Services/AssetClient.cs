@@ -1,18 +1,20 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace AerialForWindows.Services {
     public class AssetClient {
         private Asset[] _assets;
-        private const string MovieViewUrl = "http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json";
+        private static readonly Uri MovieViewUrl = new Uri("http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json");
 
-        public Asset[] GetAssets() {
+        public async Task<Asset[]> GetAssetsAsync() {
             if (_assets == null) {
                 try {
                     var webClient = new WebClient();
-                    var content = webClient.DownloadString(MovieViewUrl);
+                    var content = await webClient.DownloadStringTaskAsync(MovieViewUrl);
                     var assetGroups = JsonConvert.DeserializeObject<AssetGroup[]>(content);
                     _assets = assetGroups.SelectMany(group => @group.Assets).ToArray();
                 } catch {

@@ -11,11 +11,10 @@ using AerialForWindows.Updates;
 
 namespace AerialForWindows {
     public class ScreenSaverWindow : Window {
-        private readonly string _movieUrl;
         private TextBlock _textBlockError;
+        readonly MediaElement _mediaElement;
 
-        public ScreenSaverWindow(string movieUrl = null) {
-            _movieUrl = movieUrl;
+        public ScreenSaverWindow(MediaElementController mediaElementController, int screen) {
             Background = Brushes.Black;
             ResizeMode = ResizeMode.NoResize;
             ShowInTaskbar = false;
@@ -23,14 +22,11 @@ namespace AerialForWindows {
             Title = "Aerial For Windows";
 
             var grid = new Grid();
-            if (!String.IsNullOrEmpty(movieUrl)) {
-                var mediaElement = new MediaElement {
-                    Stretch = Stretch.Uniform,
-                    LoadedBehavior = MediaState.Play,
-                    Source = new Uri(movieUrl)
-                };
-                mediaElement.MediaFailed += MediaElementOnMediaFailed;
-                grid.Children.Add(mediaElement);
+
+            _mediaElement = mediaElementController.MediaElements[screen];
+            if (_mediaElement != null) {
+                _mediaElement.MediaFailed += MediaElementOnMediaFailed;
+                grid.Children.Add(_mediaElement);
             }
             Content = grid;
 
@@ -81,7 +77,7 @@ namespace AerialForWindows {
                 ((Grid) Content).Children.Add(_textBlockError);
             }
 
-            _textBlockError.Text = $"Playing {_movieUrl} failed.\n{args.ErrorException.Message}";
+            _textBlockError.Text = $"Playing {_mediaElement.Source} failed.\n{args.ErrorException.Message}";
         }
     }
 }

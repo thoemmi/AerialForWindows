@@ -69,6 +69,7 @@ namespace AerialForWindows {
         public MovieWindowsMode MovieWindowsMode { get; set; }
 
         public bool ShouldCacheMovies { get; set; }
+        public bool PlayInLoop { get; set; }
         public string CachePath { get; set; }
         public Guid? BitsJobId { get; set; }
 
