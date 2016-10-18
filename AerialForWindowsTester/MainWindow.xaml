@@ -17,6 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="7" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -83,8 +84,7 @@
         <local:AspectRatioLayoutDecorator Grid.Row="1"
                                           Grid.Column="1"
                                           AspectRatio="1.77777777778">
-            <ContentControl x:Name="_screen1" />
-
+            <ContentControl Content="{Binding MediaElement1, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
         </local:AspectRatioLayoutDecorator>
         <Image Grid.Row="1"
                Grid.Column="2"
@@ -105,8 +105,7 @@
         <local:AspectRatioLayoutDecorator Grid.Row="1"
                                           Grid.Column="4"
                                           AspectRatio="1.77777777778">
-            <ContentControl x:Name="_screen2" />
-
+            <ContentControl Content="{Binding MediaElement2, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
         </local:AspectRatioLayoutDecorator>
         <Image Grid.Row="1"
                Grid.Column="5"
@@ -163,16 +162,46 @@
                VerticalAlignment="Top"
                Stretch="None"
                Source="Resources\screen_foot.png" />
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="6">
-            <Button Content="Configure" Click="OnConfigureClickAsync"/>
+        <ProgressBar Grid.Row="4"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="3"
+                     Margin="7 0"
+                     Maximum="{Binding Maximum1,
+                                       Mode=OneWay,
+                                       RelativeSource={RelativeSource FindAncestor,
+                                                                      AncestorType={x:Type Window}}}"
+                     Value="{Binding Value1,
+                                     Mode=OneWay,
+                                     RelativeSource={RelativeSource FindAncestor,
+                                                                    AncestorType={x:Type Window}}}" />
+        <ProgressBar Grid.Row="4"
+                     Grid.Column="3"
+                     Grid.ColumnSpan="3"
+                     Margin="7 0"
+                     Maximum="{Binding Maximum2,
+                                       Mode=OneWay,
+                                       RelativeSource={RelativeSource FindAncestor,
+                                                                      AncestorType={x:Type Window}}}"
+                     Value="{Binding Value2,
+                                     Mode=OneWay,
+                                     RelativeSource={RelativeSource FindAncestor,
+                                                                    AncestorType={x:Type Window}}}" />
+        <StackPanel Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="6"
+                    Margin="5"
+                    Orientation="Horizontal">
+            <Button MinWidth="72"
+                    Click="OnConfigureClickAsync"
+                    Content="Configure" />
         </StackPanel>
-        <NlogViewer:NlogViewer x:Name="logCtrl"
-                               Grid.Row="5"
+        <NlogViewer:NlogViewer Grid.Row="6"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="6"
                                TimeWidth="Auto"
                                LoggerNameWidth="Auto"
                                LevelWidth="Auto"
                                MessageWidth="Auto"
-                               ExceptionWidth="Auto"
-                               Grid.ColumnSpan="6" />
+                               ExceptionWidth="Auto" />
     </Grid>
 </Window>

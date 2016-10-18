@@ -5,6 +5,8 @@ using NLog;
 
 namespace AerialForWindows {
     public class AllScreenDifferentMoviesController : MediaElementController{
+        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
         public AllScreenDifferentMoviesController(MovieManager movieManager, int screens) : base(movieManager, screens) {
         }
 
@@ -17,18 +19,19 @@ namespace AerialForWindows {
         private void Start(int screen) {
             var mediaElement = MediaElements[screen];
             mediaElement.Source = new Uri(MovieManager.GetRandomAssetUrl());
+            _logger.Debug($"Screen {screen}: playing media {mediaElement.Source}");
 
             if (Settings.Instance.PlayInLoop) {
                 mediaElement.UnloadedBehavior = MediaState.Manual;
                 mediaElement.MediaEnded += (sender, args) => {
                     mediaElement.Position = TimeSpan.Zero;
-                    LogManager.GetLogger($"Screen {screen}", typeof(MediaElementController)).Debug("Restarting media");
+                    _logger.Debug($"Screen {screen}: restarting media {mediaElement.Source}");
                     mediaElement.Play();
                 };
             } else {
                 mediaElement.MediaEnded += (sender, args) => {
                     mediaElement.Source = new Uri(MovieManager.GetRandomAssetUrl());
-                    LogManager.GetLogger($"Screen {screen}", typeof(MediaElementController)).Debug("Playing new media");
+                    _logger.Debug($"Screen {screen}: playing new media {mediaElement.Source}");
                 };
             }
         }

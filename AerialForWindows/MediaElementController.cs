@@ -7,6 +7,8 @@ using NLog;
 
 namespace AerialForWindows {
     public abstract class MediaElementController {
+        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+
         protected MediaElementController(MovieManager movieManager, int screens) {
             MovieManager = movieManager;
             if (Settings.Instance.MovieWindowsMode == MovieWindowsMode.PrimaryScreenOnly) {
@@ -31,10 +33,9 @@ namespace AerialForWindows {
                 LoadedBehavior = MediaState.Play,
             };
 
-            var logger = LogManager.GetLogger($"Screen {screen}", typeof(MediaElementController));
-            mediaElement.MediaOpened += (sender, args) => { logger.Debug("Media opened");};
-            mediaElement.MediaEnded += (sender, args) => { logger.Debug("Media ended");};
-            mediaElement.MediaFailed += (sender, args) => { logger.Debug(args.ErrorException, "Media failed");};
+            mediaElement.MediaOpened += (sender, args) => { _logger.Debug($"Screen {screen}: Media opened");};
+            mediaElement.MediaEnded += (sender, args) => { _logger.Debug($"Screen {screen}: Media ended");};
+            mediaElement.MediaFailed += (sender, args) => { _logger.Debug(args.ErrorException, $"Screen {screen}: Media failed");};
             return mediaElement;
         }
 
