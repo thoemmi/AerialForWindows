@@ -106,7 +106,6 @@ namespace AerialForWindows {
             for (var i = 0; i < Screen.AllScreens.Length; ++i) {
                 var screen = Screen.AllScreens[i];
                 Window window = new ScreenSaverWindow(movieController, i);
-                window.Cursor = Cursors.None;
                 window.Left = screen.Bounds.Left;
                 window.Top = screen.Bounds.Top;
                 window.Width = screen.Bounds.Width;

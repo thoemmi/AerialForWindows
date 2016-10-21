@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
@@ -20,6 +21,7 @@ namespace AerialForWindows {
             ResizeMode = ResizeMode.NoResize;
             ShowInTaskbar = false;
             WindowStyle = WindowStyle.None;
+            Cursor = Cursors.None;
             Title = "Aerial For Windows";
 
             var grid = new Grid();
@@ -58,6 +60,7 @@ namespace AerialForWindows {
             };
             textBlockUpdate.Inlines.Add(hyperlink);
             ((Grid) Content).Children.Add(textBlockUpdate);
+            Cursor = Cursors.Arrow;
         }
 
         private void MediaElementOnMediaFailed(object sender, ExceptionRoutedEventArgs args) {
