@@ -36,10 +36,10 @@
     </Feature>
 
     <!-- Prerequisites -->
-    <PropertyRef Id="NETFRAMEWORK46"/>
+    <PropertyRef Id="NETFRAMEWORK45"/>
 
-    <Condition Message="This application requires .NET Framework 4.6. Please install the .NET Framework then run this installer again.">
-      <![CDATA[Installed OR NETFRAMEWORK46]]>
+    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
     </Condition>
 
     <!-- Custom Actions -->
