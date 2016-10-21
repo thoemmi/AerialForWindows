@@ -56,6 +56,7 @@ namespace AerialForWindows {
             var hyperlink = new Hyperlink(new Run("Open settings to update.")) {
                 Command = new DelegateCommand(() => {
                     Process.Start("control.exe", "desk.cpl,,@screensaver");
+                    Application.Current.Shutdown();
                 })
             };
             textBlockUpdate.Inlines.Add(hyperlink);
