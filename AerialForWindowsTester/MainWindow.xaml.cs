@@ -55,6 +55,7 @@ namespace AerialForWindowsTester {
             if (MediaElement2 != null) {
                 MediaElement2.MediaOpened += MediaOpened;
             }
+            movieController.Start();
         }
 
         private void MediaOpened(object sender, RoutedEventArgs e) {

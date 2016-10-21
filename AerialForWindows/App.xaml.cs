@@ -11,7 +11,6 @@ using AerialForWindows.Updates;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using Cursors = System.Windows.Input.Cursors;
 
 namespace AerialForWindows {
     /// <summary>
@@ -117,6 +116,7 @@ namespace AerialForWindows {
 
                 window.Show();
             }
+            movieController.Start();
 
             UpdateManager.Instance.CheckForUpdatesAsync();
         }

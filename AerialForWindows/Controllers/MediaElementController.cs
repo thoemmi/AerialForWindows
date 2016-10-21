@@ -20,7 +20,6 @@ namespace AerialForWindows.Controllers {
                     .Select(CreateMediaElement)
                     .ToArray();
             }
-            Start();
         }
 
         public MediaElement[] MediaElements { get; }
@@ -40,24 +39,7 @@ namespace AerialForWindows.Controllers {
         }
 
         public abstract void Start();
-/*
- *        private void Start() {
-            switch (Settings.Instance.MovieWindowsMode) {
-                case MovieWindowsMode.PrimaryScreenOnly:
-                    break;
-                case MovieWindowsMode.AllScreensSameMovie:
-                    var commonMovieUrl = new Uri(_movieManager.GetRandomAssetUrl());
-                    foreach (var mediaElement in MediaElements) {
-                        mediaElement.Source = commonMovieUrl;
-                    }
-                    break;
-                case MovieWindowsMode.AllScreenDifferentMovies:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        */
+
         public static MediaElementController CreateController(MovieManager movieManager, int screens) {
             switch (Settings.Instance.MovieWindowsMode) {
                 case MovieWindowsMode.PrimaryScreenOnly:
