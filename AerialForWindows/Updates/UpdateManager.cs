@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,9 +14,8 @@ namespace AerialForWindows.Updates {
         public static IUpdateManager Instance {
             get {
                 if (_instance == null) {
-                    var currentVersion = AssemblyName.GetAssemblyName(typeof(UpdateManager).Assembly.Location).Version;
                     var releaseProvider = new GithubReleaseProvider("AerialForWindows", "thoemmi", "AerialForWindows");
-                    _instance = new UpdateManager(releaseProvider, currentVersion);
+                    _instance = new UpdateManager(releaseProvider, AppEnvironment.CurrentVersion);
 
                 }
                 return _instance;
