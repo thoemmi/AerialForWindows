@@ -31,7 +31,7 @@ namespace AerialForWindowsTester {
         public double Maximum2 { get; private set; }
 
         private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e) {
-            await _movieManager.EnsureLoadedAsync();
+            await _movieManager.Initialization;
             LoadMovies();
         }
 

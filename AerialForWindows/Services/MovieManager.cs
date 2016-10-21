@@ -15,13 +15,14 @@ namespace AerialForWindows.Services {
         private readonly Random _random = new Random();
 
         private static readonly string MoviesPath = Path.Combine(AppEnvironment.DataFolder, "movies.json");
-        private bool _loaded;
 
-        public async Task EnsureLoadedAsync() {
-            if (_loaded) {
-                return;
-            }
+        public MovieManager() {
+            Initialization = InitMoviesAsync();
+        }
 
+        public Task Initialization { get; }
+
+        private async Task InitMoviesAsync() {
             if (File.Exists(MoviesPath)) {
                 try {
                     string fileData;
@@ -37,6 +38,7 @@ namespace AerialForWindows.Services {
 
             var assetClient = new AssetClient();
             var assets = await assetClient.GetAssetsAsync();
+            var changed = false;
             foreach (var asset in assets) {
                 if (_movies.All(a => a.AssetId != asset.Id)) {
                     var movie = new Movie {
@@ -46,6 +48,7 @@ namespace AerialForWindows.Services {
                         TimeOfDay = asset.TimeOfDay
                     };
                     _movies.Add(movie);
+                    changed = true;
                 }
             }
 
@@ -53,9 +56,9 @@ namespace AerialForWindows.Services {
                 DownloadMovies();
             }
 
-            Save();
-
-            _loaded = true;
+            if (changed) {
+                Save();
+            }
         }
 
         private void DownloadMovies() {
@@ -150,7 +153,7 @@ namespace AerialForWindows.Services {
         }
 
         public string GetRandomAssetUrl() {
-            EnsureLoadedAsync().Wait();
+            Initialization.Wait();
 
             if (!_movies.Any()) {
                 return null;
