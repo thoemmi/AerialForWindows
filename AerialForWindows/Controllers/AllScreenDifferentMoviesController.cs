@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using AerialForWindows.Services;
 using NLog;
 
-namespace AerialForWindows {
+namespace AerialForWindows.Controllers {
     public class AllScreenDifferentMoviesController : MediaElementController{
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 

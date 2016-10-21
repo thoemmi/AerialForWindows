@@ -5,7 +5,7 @@ using System.Windows.Media;
 using AerialForWindows.Services;
 using NLog;
 
-namespace AerialForWindows {
+namespace AerialForWindows.Controllers {
     public abstract class MediaElementController {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
@@ -61,7 +61,7 @@ namespace AerialForWindows {
         public static MediaElementController CreateController(MovieManager movieManager, int screens) {
             switch (Settings.Instance.MovieWindowsMode) {
                 case MovieWindowsMode.PrimaryScreenOnly:
-                    return new PrimayScreenOnlyPolicy(movieManager, screens);
+                    return new PrimayScreenOnlyController(movieManager, screens);
                 case MovieWindowsMode.AllScreensSameMovie:
                     return new AllScreensSameMovieController(movieManager, screens);
                 case MovieWindowsMode.AllScreenDifferentMovies:

@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using AerialForWindows;
+using AerialForWindows.Controllers;
 using AerialForWindows.Services;
 using PropertyChanged;
 

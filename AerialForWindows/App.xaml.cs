@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using AerialForWindows.Controllers;
 using AerialForWindows.Services;
 using AerialForWindows.Updates;
 using NLog;
@@ -76,7 +77,7 @@ namespace AerialForWindows {
         }
 
         private void ShowPreview(IntPtr previewHwnd) {
-            var mediaElementController = new PrimayScreenOnlyPolicy(_movieManager, 1);
+            var mediaElementController = new PrimayScreenOnlyController(_movieManager, 1);
             var window = new ScreenSaverWindow(mediaElementController, 0);
             mediaElementController.Start();
 

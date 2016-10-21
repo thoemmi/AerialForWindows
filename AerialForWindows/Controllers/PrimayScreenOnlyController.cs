@@ -3,11 +3,11 @@ using System.Windows.Controls;
 using AerialForWindows.Services;
 using NLog;
 
-namespace AerialForWindows {
-    public class PrimayScreenOnlyPolicy : MediaElementController {
+namespace AerialForWindows.Controllers {
+    public class PrimayScreenOnlyController : MediaElementController {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public PrimayScreenOnlyPolicy(MovieManager movieManager, int screens) : base(movieManager, screens) {
+        public PrimayScreenOnlyController(MovieManager movieManager, int screens) : base(movieManager, screens) {
         }
 
         public override void Start() {

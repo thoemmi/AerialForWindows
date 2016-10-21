@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
+using AerialForWindows.Controllers;
 using AerialForWindows.Updates;
 
 namespace AerialForWindows {
