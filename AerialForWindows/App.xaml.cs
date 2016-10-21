@@ -101,7 +101,9 @@ namespace AerialForWindows {
         }
 
         private void ShowScreensaver() {
-            var movieController = MediaElementController.CreateController(_movieManager, Screen.AllScreens.Length);
+            var movieController = AppEnvironment.IsRemoteSession && Settings.Instance.BlankOnRemoteDesktop
+                ? null
+                : MediaElementController.CreateController(_movieManager, Screen.AllScreens.Length);
             for (var i = 0; i < Screen.AllScreens.Length; ++i) {
                 var screen = Screen.AllScreens[i];
                 Window window = new ScreenSaverWindow(movieController, i);
@@ -116,7 +118,7 @@ namespace AerialForWindows {
 
                 window.Show();
             }
-            movieController.Start();
+            movieController?.Start();
 
             UpdateManager.Instance.CheckForUpdatesAsync();
         }

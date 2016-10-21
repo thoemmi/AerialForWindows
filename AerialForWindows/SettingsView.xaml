@@ -35,6 +35,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <CheckBox Grid.Row="0"
                               Margin="5 5 5 10"
@@ -62,8 +63,13 @@
 
                     <CheckBox Grid.Row="4"
                               Margin="5 10 5 5"
-                              IsChecked="{Binding PlayInLoop}" 
-                              Content="Play in _loop"/>
+                              IsChecked="{Binding PlayInLoop}"
+                              Content="Play in _loop" />
+
+                    <CheckBox Grid.Row="5"
+                              Margin="5 10 5 5"
+                              IsChecked="{Binding BlankOnRemoteDesktop}"
+                              Content="Show blank screen in remote desktop session" />
                 </Grid>
 
             </TabItem>

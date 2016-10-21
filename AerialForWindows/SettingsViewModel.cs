@@ -18,6 +18,7 @@ namespace AerialForWindows {
             ShouldCacheMovies = Settings.Instance.ShouldCacheMovies;
             PlayInLoop = Settings.Instance.PlayInLoop;
             CachePath = !string.IsNullOrEmpty(Settings.Instance.CachePath) ? Settings.Instance.CachePath : Path.Combine(AppEnvironment.DataFolder, "Cache");
+            BlankOnRemoteDesktop = Settings.Instance.BlankOnRemoteDesktop;
 
             OkCommand = new DelegateCommand(OnOk);
             UpdateClickCommand = new DelegateCommand(OnUpdateClickCommand);
@@ -48,6 +49,7 @@ namespace AerialForWindows {
 
         public bool ShouldCacheMovies { get; set; }
         public string CachePath { get; set; }
+        public bool BlankOnRemoteDesktop { get; set; }
 
         private void OnOk() {
             if (ShouldCacheMovies && !Directory.Exists(CachePath)) {
@@ -63,6 +65,7 @@ namespace AerialForWindows {
             Settings.Instance.ShouldCacheMovies = ShouldCacheMovies;
             Settings.Instance.CachePath = CachePath;
             Settings.Instance.PlayInLoop = PlayInLoop;
+            Settings.Instance.BlankOnRemoteDesktop = BlankOnRemoteDesktop;
             Settings.Instance.Save();
 
             CloseAction?.Invoke();

@@ -16,5 +16,10 @@ namespace AerialForWindows {
         /// Gets the current version of the application.
         /// </summary>
         public static readonly Version CurrentVersion = AssemblyName.GetAssemblyName(typeof(AppEnvironment).Assembly.Location).Version;
+
+        /// <summary>
+        /// Specifies if the application is running in a remote desktop session.
+        /// </summary>
+        public static readonly bool IsRemoteSession = System.Windows.Forms.SystemInformation.TerminalServerSession;
     }
 }

@@ -26,7 +26,7 @@ namespace AerialForWindows {
 
             var grid = new Grid();
 
-            _mediaElement = mediaElementController.MediaElements[screen];
+            _mediaElement = mediaElementController?.MediaElements[screen];
             if (_mediaElement != null) {
                 _mediaElement.MediaFailed += MediaElementOnMediaFailed;
                 grid.Children.Add(_mediaElement);
