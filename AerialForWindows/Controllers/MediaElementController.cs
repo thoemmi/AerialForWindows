@@ -32,9 +32,9 @@ namespace AerialForWindows.Controllers {
                 LoadedBehavior = MediaState.Play,
             };
 
-            mediaElement.MediaOpened += (sender, args) => { _logger.Debug($"Screen {screen}: Media opened");};
-            mediaElement.MediaEnded += (sender, args) => { _logger.Debug($"Screen {screen}: Media ended");};
-            mediaElement.MediaFailed += (sender, args) => { _logger.Debug(args.ErrorException, $"Screen {screen}: Media failed");};
+            mediaElement.MediaOpened += (sender, args) => { _logger.Debug($"Screen {screen}: Media opened {mediaElement.Source}");};
+            mediaElement.MediaEnded += (sender, args) => { _logger.Debug($"Screen {screen}: Media ended {mediaElement.Source}");};
+            mediaElement.MediaFailed += (sender, args) => { _logger.Debug(args.ErrorException, $"Screen {screen}: Media failed {mediaElement.Source}");};
             return mediaElement;
         }
 
