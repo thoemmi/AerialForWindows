@@ -11,161 +11,132 @@
         UseLayoutRounding="True"
         Loaded="MainWindow_OnLoaded"
         mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="MonitorStyle" TargetType="ContentControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="9" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="9" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="7" />
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <!--  top row  -->
+                            <Image Grid.Row="0"
+                                   Grid.Column="0"
+                                   Width="9"
+                                   Height="9"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom"
+                                   Source="Resources\screen_topleft.png" />
+                            <Image Grid.Row="0"
+                                   Grid.Column="1"
+                                   Height="9"
+                                   VerticalAlignment="Bottom"
+                                   Stretch="Fill"
+                                   Source="Resources\screen_top.png" />
+                            <Image Grid.Row="0"
+                                   Grid.Column="2"
+                                   Width="9"
+                                   Height="9"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Source="Resources\screen_topright.png" />
+                            <!--  middle row  -->
+                            <Image Grid.Row="1"
+                                   Grid.Column="0"
+                                   Width="9"
+                                   HorizontalAlignment="Right"
+                                   Stretch="Fill"
+                                   Source="Resources/screen_left.png" />
+                            <Image Grid.Row="1"
+                                   Grid.Column="1"
+                                   Stretch="Fill"
+                                   Source="Resources/screen_center.png" />
+                            <ContentPresenter Grid.Row="1"
+                                              Grid.Column="1"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"
+                                              Content="{TemplateBinding Content}" />
+                            <Image Grid.Row="1"
+                                   Grid.Column="2"
+                                   Width="9"
+                                   HorizontalAlignment="Left"
+                                   Stretch="Fill"
+                                   Source="Resources/screen_right.png" />
+                            <!--  bottom row  -->
+                            <Image Grid.Row="2"
+                                   Grid.Column="0"
+                                   Width="9"
+                                   Height="9"
+                                   HorizontalAlignment="Right"
+                                   Source="Resources\screen_bottomleft.png" />
+                            <Image Grid.Row="2"
+                                   Grid.Column="1"
+                                   Height="9"
+                                   VerticalAlignment="Bottom"
+                                   Stretch="Fill"
+                                   Source="Resources\screen_bottom.png" />
+                            <Image Grid.Row="2"
+                                   Grid.Column="2"
+                                   Width="9"
+                                   Height="9"
+                                   HorizontalAlignment="Left"
+                                   Source="Resources\screen_bottomright.png" />
+                            <!--  foot  -->
+                            <Image Grid.Row="3"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Stretch="None"
+                                   Source="Resources\screen_foot.png" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="7" />
-            <RowDefinition Height="40" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-        <Image Grid.Row="0"
-               Grid.Column="0"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Bottom"
-               Source="Resources\screen_topleft.png" />
-        <Image Grid.Row="0"
-               Grid.Column="1"
-               Height="9"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Bottom"
-               Stretch="Fill"
-               Source="Resources\screen_top.png" />
-        <Image Grid.Row="0"
-               Grid.Column="2"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Source="Resources\screen_topright.png" />
-        <Image Grid.Row="0"
-               Grid.Column="3"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Bottom"
-               Source="Resources/screen_topleft.png" />
-        <Image Grid.Row="0"
-               Grid.Column="4"
-               Height="9"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Bottom"
-               Stretch="Fill"
-               Source="Resources/screen_top.png" />
-        <Image Grid.Row="0"
-               Grid.Column="5"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Bottom"
-               Source="Resources/screen_topright.png" />
-        <Image Grid.Row="1"
-               Grid.Column="0"
-               Width="9"
-               HorizontalAlignment="Right"
-               Stretch="Fill"
-               Source="Resources/screen_left.png" />
-        <Image Grid.Row="1"
-               Grid.Column="1"
-               Stretch="Fill"
-               Source="Resources/screen_center.png" />
-        <local:AspectRatioLayoutDecorator Grid.Row="1"
-                                          Grid.Column="1"
-                                          AspectRatio="1.77777777778">
-            <ContentControl Content="{Binding MediaElement1, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-        </local:AspectRatioLayoutDecorator>
-        <Image Grid.Row="1"
-               Grid.Column="2"
-               Width="9"
-               HorizontalAlignment="Left"
-               Stretch="Fill"
-               Source="Resources/screen_right.png" />
-        <Image Grid.Row="1"
-               Grid.Column="3"
-               Width="9"
-               HorizontalAlignment="Right"
-               Stretch="Fill"
-               Source="Resources/screen_left.png" />
-        <Image Grid.Row="1"
-               Grid.Column="4"
-               Stretch="Fill"
-               Source="Resources/screen_center.png" />
-        <local:AspectRatioLayoutDecorator Grid.Row="1"
-                                          Grid.Column="4"
-                                          AspectRatio="1.77777777778">
-            <ContentControl Content="{Binding MediaElement2, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-        </local:AspectRatioLayoutDecorator>
-        <Image Grid.Row="1"
-               Grid.Column="5"
-               Width="9"
-               HorizontalAlignment="Left"
-               Stretch="Fill"
-               Source="Resources/screen_right.png" />
-        <Image Grid.Row="2"
-               Grid.Column="0"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Right"
-               Source="Resources\screen_bottomleft.png" />
-        <Image Grid.Row="2"
-               Grid.Column="1"
-               Height="9"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Bottom"
-               Stretch="Fill"
-               Source="Resources\screen_bottom.png" />
-        <Image Grid.Row="2"
-               Grid.Column="2"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Left"
-               Source="Resources\screen_bottomright.png" />
-        <Image Grid.Row="2"
-               Grid.Column="3"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Right"
-               Source="Resources\screen_bottomleft.png" />
-        <Image Grid.Row="2"
-               Grid.Column="4"
-               Height="9"
-               HorizontalAlignment="Center"
-               Stretch="Fill"
-               Source="Resources\screen_bottom.png" />
-        <Image Grid.Row="2"
-               Grid.Column="5"
-               Width="9"
-               Height="9"
-               HorizontalAlignment="Left"
-               Source="Resources\screen_bottomright.png" />
-        <Image Grid.Row="3"
-               Grid.Column="1"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Top"
-               Stretch="None"
-               Source="Resources\screen_foot.png" />
-        <Image Grid.Row="3"
-               Grid.Column="4"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Top"
-               Stretch="None"
-               Source="Resources\screen_foot.png" />
-        <ProgressBar Grid.Row="4"
+        <ContentControl Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="5"
+                        Style="{StaticResource MonitorStyle}">
+            <local:AspectRatioLayoutDecorator Grid.Row="1"
+                                              Grid.Column="4"
+                                              AspectRatio="1.77777777778">
+                <ContentControl Content="{Binding MediaElement1, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+            </local:AspectRatioLayoutDecorator>
+        </ContentControl>
+        <ContentControl Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        Style="{StaticResource MonitorStyle}">
+            <local:AspectRatioLayoutDecorator Grid.Row="1"
+                                              Grid.Column="4"
+                                              AspectRatio="1.77777777778">
+                <ContentControl Content="{Binding MediaElement2, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+            </local:AspectRatioLayoutDecorator>
+        </ContentControl>
+        <ProgressBar Grid.Row="1"
                      Grid.Column="0"
-                     Grid.ColumnSpan="3"
-                     Margin="7 0"
+                     Margin="5"
                      Maximum="{Binding Maximum1,
                                        Mode=OneWay,
                                        RelativeSource={RelativeSource FindAncestor,
@@ -174,10 +145,9 @@
                                      Mode=OneWay,
                                      RelativeSource={RelativeSource FindAncestor,
                                                                     AncestorType={x:Type Window}}}" />
-        <ProgressBar Grid.Row="4"
-                     Grid.Column="3"
-                     Grid.ColumnSpan="3"
-                     Margin="7 0"
+        <ProgressBar Grid.Row="1"
+                     Grid.Column="1"
+                     Margin="5"
                      Maximum="{Binding Maximum2,
                                        Mode=OneWay,
                                        RelativeSource={RelativeSource FindAncestor,
@@ -186,18 +156,19 @@
                                      Mode=OneWay,
                                      RelativeSource={RelativeSource FindAncestor,
                                                                     AncestorType={x:Type Window}}}" />
-        <StackPanel Grid.Row="5"
+        <StackPanel Grid.Row="2"
                     Grid.Column="0"
-                    Grid.ColumnSpan="6"
+                    Grid.ColumnSpan="2"
                     Margin="5"
                     Orientation="Horizontal">
             <Button MinWidth="72"
                     Click="OnConfigureClickAsync"
                     Content="Configure" />
         </StackPanel>
-        <NlogViewer:NlogViewer Grid.Row="6"
+        <NlogViewer:NlogViewer Grid.Row="3"
                                Grid.Column="0"
-                               Grid.ColumnSpan="6"
+                               Grid.ColumnSpan="2"
+                               Margin="5"
                                TimeWidth="Auto"
                                LoggerNameWidth="Auto"
                                LevelWidth="Auto"
