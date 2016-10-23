@@ -28,7 +28,7 @@ After successful installation the setup will open the **Screen Saver Settings** 
 * **Auto-update:** Both the movie window and the settings dialog show a notification when an update is available.
 * **Local Caching:** Option to cache the movies locally. **Note:** This required at least 6 GB of free disk space.
 
-![Screen Saver Settings](assets/AerialForWindows.png)
+![Screen Saver Settings Page 1](assets/SettingsPage1.png)![Screen Saver Settings Page 2](assets/SettingsPage2.png)
 
 ## Compatibility
 
@@ -49,16 +49,19 @@ I appreciate all pull requests.
 
 ## Changelog
 
-* June 19th, 2015 - v0.4
+* **October 23, 2016 - v0.5**
+  * Added choice to either play the same video in a loop, or show a new one.
+  * Added option to show blank screen in remote desktop sessions
+* **June 19th, 2016 - v0.4**
   * Added local caching
-* June 17th, 2015 - v0.3
+* **June 17th, 2016 - v0.3**
   * Show update notification
   * Settings are now stored in the file system (at `%LOCALAPPDATA%\AerialForWindows`) instead of the registry
   * Added logging (in `%LOCALAPPDATA%\AerialForWindows` too) 
-* November 3rd, 2015 - v0.2
+* **November 3rd, 2015 - v0.2**
   * added Setup
   * show error when movie playback fails
-* October 29th, 2015 - v0.1
+* **October 29th, 2015 - v0.1**
   * First release
 
 ## License

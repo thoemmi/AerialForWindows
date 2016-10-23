@@ -69,7 +69,7 @@
                     <CheckBox Grid.Row="5"
                               Margin="5 10 5 5"
                               IsChecked="{Binding BlankOnRemoteDesktop}"
-                              Content="Show blank screen in remote desktop session" />
+                              Content="Show _blank screen in remote desktop session" />
                 </Grid>
 
             </TabItem>
