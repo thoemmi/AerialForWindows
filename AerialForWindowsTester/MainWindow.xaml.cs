@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using AerialForWindows;
 using AerialForWindows.Controllers;
 using AerialForWindows.Services;
+using AerialForWindows.Updates;
 using PropertyChanged;
 
 namespace AerialForWindowsTester {
@@ -16,6 +18,12 @@ namespace AerialForWindowsTester {
 
         public MainWindow() {
             InitializeComponent();
+
+#if DEBUG
+            if (Debugger.IsAttached) {
+                UpdateManager.InitUpdateManagerForTests();
+            }
+#endif
 
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += OnTick;
