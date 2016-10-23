@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
-using AerialForWindows;
+using System.Windows.Media.Animation;
 using NlogViewer;
 using NLog;
 using NLog.Config;
-using NLog.Targets;
 
 namespace AerialForWindowsTester {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application {
+    public partial class App {
         protected override void OnStartup(StartupEventArgs e) {
             var config = new LoggingConfiguration();
             var nlogViewerTarget = new NlogViewerTarget();
@@ -25,9 +17,13 @@ namespace AerialForWindowsTester {
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, nlogViewerTarget));
             LogManager.Configuration = config;
 
-            nlogViewerTarget.LogReceived += info => {
-                System.Diagnostics.Debug.WriteLine(info.LogEvent.FormattedMessage);
-            };
+            nlogViewerTarget.LogReceived += info => Debug.WriteLine(info.LogEvent.FormattedMessage);
+
+            // decreased frame rate from 60fps to 30fps
+            Timeline.DesiredFrameRateProperty.OverrideMetadata(
+                typeof(Timeline),
+                new FrameworkPropertyMetadata { DefaultValue = 30 }
+            );
 
             base.OnStartup(e);
         }

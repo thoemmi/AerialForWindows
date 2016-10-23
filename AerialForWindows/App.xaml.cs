@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using AerialForWindows.Controllers;
 using AerialForWindows.Services;
 using AerialForWindows.Updates;
@@ -32,6 +33,12 @@ namespace AerialForWindows {
                 UpdateManager.InitUpdateManagerForTests();
             }
 #endif
+
+            // decreased frame rate from 60fps to 30fps
+            Timeline.DesiredFrameRateProperty.OverrideMetadata(
+                typeof(Timeline),
+                new FrameworkPropertyMetadata { DefaultValue = 30 }
+            );
 
             if (e.Args.Length == 0 || e.Args[0].ToLower().StartsWith("/s")) {
                 ShowScreensaver();
