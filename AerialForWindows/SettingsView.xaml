@@ -26,7 +26,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <UiHelper:TabControlEx>
+        <UiHelper:TabControlEx Padding="5">
             <TabItem Header="Video">
                 <Grid>
                     <Grid.RowDefinitions>
