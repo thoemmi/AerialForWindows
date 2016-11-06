@@ -11,10 +11,10 @@ using SharpBits.Base;
 namespace AerialForWindows.Services {
     public class MovieManager {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-        private readonly List<Movie> _movies = new List<Movie>();
-        private readonly Random _random = new Random();
 
         private static readonly string MoviesPath = Path.Combine(AppEnvironment.DataFolder, "movies.json");
+        private readonly List<Movie> _movies = new List<Movie>();
+        private readonly Random _random = new Random();
 
         public MovieManager() {
             Initialization = InitMoviesAsync();
@@ -31,7 +31,8 @@ namespace AerialForWindows.Services {
                     }
                     JsonConvert.PopulateObject(fileData, _movies);
                     _logger.Debug("Movies loaded");
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     _logger.Error(ex, "Loading movies failed");
                 }
             }
@@ -53,7 +54,15 @@ namespace AerialForWindows.Services {
             }
 
             if (Settings.Instance.ShouldCacheMovies) {
-                DownloadMovies();
+                foreach (var movie in _movies.Where(m => string.IsNullOrEmpty(m.LocalPath))) {
+                    var localPath = GetLocalPathForMovie(movie);
+                    if (File.Exists(localPath)) {
+                        movie.LocalPath = localPath;
+                        changed = true;
+                    }
+                }
+
+                changed |= DownloadMovies();
             }
 
             if (changed) {
@@ -61,12 +70,12 @@ namespace AerialForWindows.Services {
             }
         }
 
-        private void DownloadMovies() {
+        private bool DownloadMovies() {
             using (var bitsManager = new BitsManager()) {
                 bitsManager.OnInterfaceError += (sender, args) => _logger.Error("BITS error: {0}\n{1}", args.Message, args.Description);
 
                 if (CheckRunningJob(bitsManager)) {
-                    return;
+                    return false;
                 }
 
                 var moviesToDownload = _movies
@@ -77,11 +86,11 @@ namespace AerialForWindows.Services {
                 if (moviesToDownload.Any()) {
                     var job = bitsManager.CreateJob("AerialForWindows", JobType.Download);
                     job.Priority = JobPriority.Low;
-                    job.MinimumRetryDelay = 5*60; // 5 minutes
-                    job.NoProgressTimeout = 30*60; // 30 minutes
+                    job.MinimumRetryDelay = 5 * 60; // 5 minutes
+                    job.NoProgressTimeout = 30 * 60; // 30 minutes
 
                     foreach (var movie in moviesToDownload) {
-                        var localPath = Path.Combine(Settings.Instance.CachePath, Path.GetFileName(movie.DownloadUrl));
+                        var localPath = GetLocalPathForMovie(movie);
                         movie.LocalPath = localPath;
                         job.AddFile(movie.DownloadUrl, localPath);
                     }
@@ -91,7 +100,10 @@ namespace AerialForWindows.Services {
                     Settings.Instance.Save();
 
                     _logger.Debug($"Startet download of {moviesToDownload.Count} files");
+
+                    return true;
                 }
+                return false;
             }
         }
 
@@ -147,7 +159,8 @@ namespace AerialForWindows.Services {
                     textWriter.WriteLine(JsonConvert.SerializeObject(_movies, Formatting.Indented));
                 }
                 _logger.Debug("Movies saved");
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 _logger.Error(ex, "Saving movies failed.");
             }
         }
@@ -161,7 +174,7 @@ namespace AerialForWindows.Services {
 
             var movies = _movies.ToArray();
             if (Settings.Instance.UseTimeOfDay) {
-                var timeOfDay = (DateTime.Now.Hour > 7 && DateTime.Now.Hour < 19) ? TimeOfDay.Day : TimeOfDay.Night;
+                var timeOfDay = DateTime.Now.Hour > 7 && DateTime.Now.Hour < 19 ? TimeOfDay.Day : TimeOfDay.Night;
                 movies = movies.Where(asset => asset.TimeOfDay == timeOfDay).ToArray();
             }
 
@@ -170,6 +183,8 @@ namespace AerialForWindows.Services {
                 ? movie.LocalPath
                 : movie.DownloadUrl;
         }
+
+        private string GetLocalPathForMovie(Movie movie) => Path.Combine(Settings.Instance.CachePath, Path.GetFileName(movie.DownloadUrl));
     }
 
     public class Movie {
