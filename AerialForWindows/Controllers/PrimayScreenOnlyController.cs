@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Controls;
 using AerialForWindows.Services;
 using NLog;
@@ -7,26 +8,24 @@ namespace AerialForWindows.Controllers {
     public class PrimayScreenOnlyController : MediaElementController {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public PrimayScreenOnlyController(MovieManager movieManager, int screens) : base(movieManager, screens) {
-        }
+        public PrimayScreenOnlyController(MovieManager movieManager, int screens) : base(movieManager, screens) { }
 
         public override void Start() {
             var primary = MediaElements[0];
             primary.Source = new Uri(MovieManager.GetRandomAssetUrl());
             _logger.Debug($"Playing media {primary.Source}");
+        }
+
+        protected override void OnMediaEnded(MediaElement mediaElement, int screen) {
+            Debug.Assert(screen == 0);
 
             if (Settings.Instance.PlayInLoop) {
-                primary.UnloadedBehavior = MediaState.Manual;
-                primary.MediaEnded += (sender, args) => {
-                    primary.Position = TimeSpan.Zero;
-                    _logger.Debug("Replaying media");
-                    primary.Play();
-                };
+                _logger.Debug("Replaying media");
+                mediaElement.Position = TimeSpan.Zero;
+                mediaElement.Play();
             } else {
-                primary.MediaEnded += (sender, args) => {
-                    primary.Source = new Uri(MovieManager.GetRandomAssetUrl());
-                    _logger.Debug($"Playing new media {primary.Source}");
-                };
+                _logger.Debug($"Playing new media {mediaElement.Source}");
+                mediaElement.Source = new Uri(MovieManager.GetRandomAssetUrl());
             }
         }
     }
