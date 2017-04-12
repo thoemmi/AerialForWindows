@@ -136,7 +136,7 @@
         </ContentControl>
         <ProgressBar Grid.Row="1"
                      Grid.Column="0"
-                     Margin="5"
+                     Margin="3"
                      Maximum="{Binding Maximum1,
                                        Mode=OneWay,
                                        RelativeSource={RelativeSource FindAncestor,
@@ -147,7 +147,7 @@
                                                                     AncestorType={x:Type Window}}}" />
         <ProgressBar Grid.Row="1"
                      Grid.Column="1"
-                     Margin="5"
+                     Margin="3"
                      Maximum="{Binding Maximum2,
                                        Mode=OneWay,
                                        RelativeSource={RelativeSource FindAncestor,
