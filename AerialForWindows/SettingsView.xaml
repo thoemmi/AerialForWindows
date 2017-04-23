@@ -39,6 +39,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <CheckBox
                         Grid.Row="0"
@@ -61,15 +62,20 @@
                         Margin="5"
                         Content="Show _different movies on all screens"
                         IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreenDifferentMovies}" />
+                    <RadioButton
+                        Grid.Row="4"
+                        Margin="5"
+                        Content="Show movier on _random screen"
+                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RandomScreen}" />
 
                     <CheckBox
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Margin="5 10 5 5"
                         Content="Play in _loop"
                         IsChecked="{Binding PlayInLoop}" />
 
                     <CheckBox
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Margin="5 10 5 5"
                         VerticalContentAlignment="Center"
                         IsChecked="{Binding SwitchOffMonitorsEnabled}">
@@ -85,7 +91,7 @@
                     </CheckBox>
 
                     <CheckBox
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Margin="5 10 5 5"
                         Content="Show _blank screen in remote desktop session"
                         IsChecked="{Binding BlankOnRemoteDesktop}" />

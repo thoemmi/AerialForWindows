@@ -89,5 +89,6 @@ namespace AerialForWindows {
         PrimaryScreenOnly = 0,
         AllScreensSameMovie = 1,
         AllScreenDifferentMovies = 2,
+        RandomScreen = 3,
     }
 }
