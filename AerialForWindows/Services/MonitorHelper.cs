@@ -3,8 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace AerialForWindows.Services {
     public static class MonitorHelper {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern IntPtr PostMessage(
             IntPtr hWnd,
             uint msg,
             IntPtr wParam,
@@ -12,7 +12,7 @@ namespace AerialForWindows.Services {
         );
 
         public static void PowerOff() {
-            SendMessage(
+            PostMessage(
                 (IntPtr) 0xffff, // HWND_BROADCAST
                 0x0112, // WM_SYSCOMMAND
                 (IntPtr) 0xf170, // SC_MONITORPOWER
