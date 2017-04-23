@@ -43,7 +43,7 @@
                     </Grid.RowDefinitions>
                     <CheckBox
                         Grid.Row="0"
-                        Margin="5 5 5 10"
+                        Margin="5,5,5,10"
                         Content="_Use time of day"
                         IsChecked="{Binding UseTimeOfDay}" />
 
@@ -55,32 +55,32 @@
                     <RadioButton
                         Grid.Row="2"
                         Margin="5"
-                        Content="Show same movie on _all screens"
-                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreensSameMovie}" />
+                        Content="Show movie on _random screen"
+                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RandomScreen}" />
                     <RadioButton
                         Grid.Row="3"
                         Margin="5"
-                        Content="Show _different movies on all screens"
-                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreenDifferentMovies}" />
+                        Content="Show same movie on _all screens"
+                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreensSameMovie}" />
                     <RadioButton
                         Grid.Row="4"
                         Margin="5"
-                        Content="Show movier on _random screen"
-                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=RandomScreen}" />
+                        Content="Show _different movies on all screens"
+                        IsChecked="{Binding MovieWindowsMode, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=AllScreenDifferentMovies}" />
 
                     <CheckBox
                         Grid.Row="5"
-                        Margin="5 10 5 5"
+                        Margin="5,10,5,5"
                         Content="Play in _loop"
                         IsChecked="{Binding PlayInLoop}" />
 
                     <CheckBox
                         Grid.Row="6"
-                        Margin="5 10 5 5"
+                        Margin="5,10,5,5"
                         VerticalContentAlignment="Center"
                         IsChecked="{Binding SwitchOffMonitorsEnabled}">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Switch off display after _minutes:" Padding="0 2 5 0"/>
+                            <Label Padding="0,2,5,0" Content="Switch off display after _minutes:" />
                             <xctk:IntegerUpDown
                                 Width="50"
                                 IsEnabled="{Binding SwitchOffMonitorsEnabled}"
@@ -92,7 +92,7 @@
 
                     <CheckBox
                         Grid.Row="7"
-                        Margin="5 10 5 5"
+                        Margin="5,10,5,5"
                         Content="Show _blank screen in remote desktop session"
                         IsChecked="{Binding BlankOnRemoteDesktop}" />
                 </Grid>
@@ -121,7 +121,7 @@
                     <Label
                         Grid.Row="1"
                         Grid.Column="0"
-                        Margin="20 0 0 0"
+                        Margin="20,0,0,0"
                         Content="Cache pa_th:"
                         IsEnabled="{Binding ShouldCacheMovies}" />
                     <TextBox
@@ -135,7 +135,7 @@
                         Grid.Row="1"
                         Grid.Column="2"
                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
-                        Margin="5 0 0 0"
+                        Margin="5,0,0,0"
                         Command="{Binding BrowseCachePathCommand}"
                         Content="..."
                         IsEnabled="{Binding ShouldCacheMovies}" />
@@ -158,13 +158,13 @@
 
         <StackPanel
             Grid.Row="2"
-            Margin="5 10 5 5"
+            Margin="5,10,5,5"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
                 MinWidth="73"
                 MinHeight="21"
-                Margin="0 0 5 0"
+                Margin="0,0,5,0"
                 Command="{Binding OkCommand}"
                 Content="OK"
                 IsDefault="True" />

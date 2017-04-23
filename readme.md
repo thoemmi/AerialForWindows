@@ -26,7 +26,7 @@ After successful installation the setup will open the **Screen Saver Settings** 
 * **Time of day:** There are different movies for day and night. You can choose to show movies matching the current time (thresholds are 7am and 7pm). 
 * **Select screens:** If you've got multiple screens, you can select whether there's a movie played only on the primary screen, the same move on all screens, or a different movie on each screen.
 * **Auto-update:** Both the movie window and the settings dialog show a notification when an update is available.
-* **Local Caching:** Option to cache the movies locally. **Note:** This required at least 6 GB of free disk space.
+* **Local Caching:** Option to cache the movies locally. **Note:** This required at least **12 GB** of free disk space.
 
 ![Screen Saver Settings Page 1](assets/SettingsPage1.png)![Screen Saver Settings Page 2](assets/SettingsPage2.png)
 
@@ -49,6 +49,9 @@ I appreciate all pull requests.
 
 ## Changelog
 
+* **April 23, 2017 - v0.6**
+  * Added option to play movie on one random screen (#5)
+  * Added option to switch off screens after a configurable interval (#6)
 * **October 23, 2016 - v0.5**
   * Added choice to either play the same video in a loop, or show a new one.
   * Added option to show blank screen in remote desktop sessions
