@@ -73,6 +73,7 @@ namespace AerialForWindows {
         public string CachePath { get; set; }
         public Guid? BitsJobId { get; set; }
         public bool BlankOnRemoteDesktop { get; set; }
+        public int SwitchOffMonitorsAfterMinutes { get; set; }
 
         private static int ReadInteger(RegistryKey key, string name, int defaultValue) {
             var val = key?.GetValue(name);

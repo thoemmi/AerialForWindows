@@ -19,6 +19,8 @@ namespace AerialForWindows {
             PlayInLoop = Settings.Instance.PlayInLoop;
             CachePath = !string.IsNullOrEmpty(Settings.Instance.CachePath) ? Settings.Instance.CachePath : Path.Combine(AppEnvironment.DataFolder, "Cache");
             BlankOnRemoteDesktop = Settings.Instance.BlankOnRemoteDesktop;
+            SwitchOffMonitorsEnabled = Settings.Instance.SwitchOffMonitorsAfterMinutes > 0;
+            SwitchOffMonitorsAfterMinutes = Settings.Instance.SwitchOffMonitorsAfterMinutes;
 
             OkCommand = new DelegateCommand(OnOk);
             UpdateClickCommand = new DelegateCommand(OnUpdateClickCommand);
@@ -50,6 +52,9 @@ namespace AerialForWindows {
         public bool ShouldCacheMovies { get; set; }
         public string CachePath { get; set; }
         public bool BlankOnRemoteDesktop { get; set; }
+        public bool SwitchOffMonitorsEnabled { get; set; }
+        public int SwitchOffMonitorsAfterMinutes { get; set; }
+
 
         private void OnOk() {
             if (ShouldCacheMovies && !Directory.Exists(CachePath)) {
@@ -66,6 +71,7 @@ namespace AerialForWindows {
             Settings.Instance.CachePath = CachePath;
             Settings.Instance.PlayInLoop = PlayInLoop;
             Settings.Instance.BlankOnRemoteDesktop = BlankOnRemoteDesktop;
+            Settings.Instance.SwitchOffMonitorsAfterMinutes = SwitchOffMonitorsEnabled ? SwitchOffMonitorsAfterMinutes : 0;
             Settings.Instance.Save();
 
             CloseAction?.Invoke();

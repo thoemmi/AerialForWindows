@@ -9,6 +9,7 @@ using NLog;
 namespace AerialForWindows.Controllers {
     public abstract class MediaElementController {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        private DateTimeOffset _switchOffDate;
 
         protected MediaElementController(MovieManager movieManager, int screens) {
             MovieManager = movieManager;
@@ -41,10 +42,13 @@ namespace AerialForWindows.Controllers {
             return mediaElement;
         }
 
-        public abstract void Start();
+        public virtual void Start() {
+            _switchOffDate = Settings.Instance.SwitchOffMonitorsAfterMinutes > 0
+                ? DateTimeOffset.UtcNow.AddMinutes(Settings.Instance.SwitchOffMonitorsAfterMinutes)
+                : DateTimeOffset.MaxValue;
+        }
 
         protected abstract void OnMediaEnded(MediaElement medieElement, int screen);
-
 
         private static void OnMediaOpened(object sender, RoutedEventArgs args) {
             var mediaElement = (MediaElement) sender;
@@ -59,7 +63,15 @@ namespace AerialForWindows.Controllers {
 
             _logger.Debug($"Screen {screen}: Media ended {mediaElement.Source}");
 
-            OnMediaEnded(mediaElement, screen);
+            if (DateTimeOffset.UtcNow >= _switchOffDate) {
+                _logger.Debug("Switching off monitors");
+                foreach (var element in MediaElements) {
+                    element?.Stop();
+                }
+                MonitorHelper.PowerOff();
+            } else {
+                OnMediaEnded(mediaElement, screen);
+            }
         }
 
         private static void OnMediaFailed(object sender, ExceptionRoutedEventArgs args) {
