@@ -88,6 +88,8 @@ namespace AerialForWindows.Controllers {
                     return new AllScreensSameMovieController(movieManager, screens);
                 case MovieWindowsMode.AllScreenDifferentMovies:
                     return new AllScreenDifferentMoviesController(movieManager, screens);
+                case MovieWindowsMode.RandomScreen:
+                    return new RandomScreenController(movieManager, screens);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -111,6 +111,7 @@
     <Compile Include="AppEnvironment.cs" />
     <Compile Include="Controllers\MediaElementController.cs" />
     <Compile Include="Controllers\PrimayScreenOnlyController.cs" />
+    <Compile Include="Controllers\RandomScreenController.cs" />
     <Compile Include="ScreenSaverWindow.cs" />
     <Compile Include="Services\AssetClient.cs" />
     <Compile Include="Services\MonitorHelper.cs" />
