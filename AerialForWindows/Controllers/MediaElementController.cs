@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using AerialForWindows.Services;
@@ -8,6 +9,7 @@ using NLog;
 namespace AerialForWindows.Controllers {
     public abstract class MediaElementController {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        private DateTimeOffset _switchOffDate;
 
         protected MediaElementController(MovieManager movieManager, int screens) {
             MovieManager = movieManager;
@@ -30,15 +32,53 @@ namespace AerialForWindows.Controllers {
             var mediaElement = new MediaElement {
                 Stretch = Stretch.Uniform,
                 LoadedBehavior = MediaState.Play,
+                UnloadedBehavior = MediaState.Manual,
+                Tag = screen
             };
 
-            mediaElement.MediaOpened += (sender, args) => { _logger.Debug($"Screen {screen}: Media opened {mediaElement.Source}");};
-            mediaElement.MediaEnded += (sender, args) => { _logger.Debug($"Screen {screen}: Media ended {mediaElement.Source}");};
-            mediaElement.MediaFailed += (sender, args) => { _logger.Debug(args.ErrorException, $"Screen {screen}: Media failed {mediaElement.Source}");};
+            mediaElement.MediaOpened += OnMediaOpened;
+            mediaElement.MediaEnded += OnMediaEnded;
+            mediaElement.MediaFailed += OnMediaFailed;
             return mediaElement;
         }
 
-        public abstract void Start();
+        public virtual void Start() {
+            _switchOffDate = Settings.Instance.SwitchOffMonitorsAfterMinutes > 0
+                ? DateTimeOffset.UtcNow.AddMinutes(Settings.Instance.SwitchOffMonitorsAfterMinutes)
+                : DateTimeOffset.MaxValue;
+        }
+
+        protected abstract void OnMediaEnded(MediaElement medieElement, int screen);
+
+        private static void OnMediaOpened(object sender, RoutedEventArgs args) {
+            var mediaElement = (MediaElement) sender;
+            var screen = (int) mediaElement.Tag;
+
+            _logger.Debug($"Screen {screen}: Media opened {mediaElement.Source}");
+        }
+
+        private void OnMediaEnded(object sender, RoutedEventArgs args) {
+            var mediaElement = (MediaElement) sender;
+            var screen = (int) mediaElement.Tag;
+
+            _logger.Debug($"Screen {screen}: Media ended {mediaElement.Source}");
+
+            if (DateTimeOffset.UtcNow >= _switchOffDate) {
+                _logger.Debug("Switching off monitors");
+                foreach (var element in MediaElements) {
+                    element?.Stop();
+                }
+                MonitorHelper.PowerOff();
+            } else {
+                OnMediaEnded(mediaElement, screen);
+            }
+        }
+
+        private static void OnMediaFailed(object sender, ExceptionRoutedEventArgs args) {
+            var mediaElement = (MediaElement) sender;
+            var screen = (int) mediaElement.Tag;
+            _logger.Debug(args.ErrorException, $"Screen {screen}: Media failed {mediaElement.Source}");
+        }
 
         public static MediaElementController CreateController(MovieManager movieManager, int screens) {
             switch (Settings.Instance.MovieWindowsMode) {

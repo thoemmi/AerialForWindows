@@ -28,6 +28,8 @@ namespace AerialForWindows {
 
             _logger.Debug("AerialScreensaver: parameters: " + string.Join(", ", e.Args));
 
+            AppDomain.CurrentDomain.UnhandledException += (o, args) => _logger.Error(args.ExceptionObject as Exception, "AppDomain: Unhandled exception");
+
 #if DEBUG
             if (Debugger.IsAttached) {
                 UpdateManager.InitUpdateManagerForTests();
@@ -57,7 +59,12 @@ namespace AerialForWindows {
         private static void ConfigureLogging() {
             var config = new LoggingConfiguration();
             var fileTarget = new FileTarget {
-                FileName = Path.Combine(AppEnvironment.DataFolder, "log.txt")
+                FileName = Path.Combine(AppEnvironment.DataFolder, "log.txt"),
+                ArchiveFileName = Path.Combine(AppEnvironment.DataFolder, "archive", "log.{###}.txt"),
+                ArchiveAboveSize = 1024 * 1014, // archive every 1 MB
+                MaxArchiveFiles = 10,
+                ArchiveNumbering = ArchiveNumberingMode.Rolling,
+                Layout = "${longdate}|${level:uppercase=true}|${logger}|${message}${exception:format=toString,Data:maxInnerExceptionLevel=10}"
             };
             config.AddTarget("file", fileTarget);
             config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
